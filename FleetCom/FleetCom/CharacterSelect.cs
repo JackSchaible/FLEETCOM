@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using FleetCom.Graphics;
 using FleetCom.Graphics.UI;
+using System.IO;
 
 
 namespace FleetCom
@@ -19,10 +20,11 @@ namespace FleetCom
     /// </summary>
     public class CharacterSelect : Microsoft.Xna.Framework.DrawableGameComponent
     {
-        Sprite Title, Char1Desc, Char2Desc, Char3Desc, Char4Desc;
-        Button Char1Button, Char2Button, Char3Button, Char4Button, NextButton;
+        Sprite Title, Char1Desc, Char2Desc, Char3Desc, Char4Desc, OverwritePopup;
+        Button Char1Button, Char2Button, Char3Button, Char4Button, NextButton, OKButton, CancelButton;
         SpriteBatch spriteBatch;
         int selectedCharacter;
+        bool isOverwriteWindowUp;
 
         public CharacterSelect(Game game)
             : base(game)
@@ -38,6 +40,7 @@ namespace FleetCom
         {
             spriteBatch = new SpriteBatch(((Game1)Game).GraphicsDevice);
             selectedCharacter = 1;
+            isOverwriteWindowUp = false;
 
             Title = new Sprite(((Game1)Game).Content.Load<Texture2D>("Graphics/CharacterSelect/Title"),
                 new Vector2(60, 50), 1.0f, 0.0f, 1.0f);
@@ -49,6 +52,8 @@ namespace FleetCom
                 new Vector2(1080, 280), 1.0f, 0.0f, 1.0f);
             Char4Desc = new Sprite(((Game1)Game).Content.Load<Texture2D>("Graphics/CharacterSelect/Character4Desc"),
                 new Vector2(1080, 700), 1.0f, 0.0f, 1.0f);
+            OverwritePopup = new Sprite(((Game1)Game).Content.Load<Texture2D>("Graphics/CharacterSelect/CharacterExistsPopup"),
+                new Vector2(465, 275), 1.0f, 0.0f, 1.0f);
             Char1Button = new Button(((Game1)Game).Content.Load<Texture2D>("Graphics/CharacterSelect/Character1Button"),
                 ((Game1)Game).Content.Load<Texture2D>("Graphics/CharacterSelect/Character1Button-Hover"),
                 ((Game1)Game).Content.Load<Texture2D>("Graphics/CharacterSelect/Character1Button-Selected"),
@@ -74,11 +79,24 @@ namespace FleetCom
                 ((Game1)Game).Content.Load<Texture2D>("Graphics/CharacterSelect/NextButton-Pressed"),
                 new Vector2(1620, 50)
                 );
+            OKButton = new Button(((Game1)Game).Content.Load<Texture2D>("Graphics/CharacterSelect/OKButton"),
+                ((Game1)Game).Content.Load<Texture2D>("Graphics/CharacterSelect/OKButton-Hover"),
+                ((Game1)Game).Content.Load<Texture2D>("Graphics/CharacterSelect/OKButton-Pressed"),
+                new Vector2(1020, 660)
+                );
+            CancelButton = new Button(((Game1)Game).Content.Load<Texture2D>("Graphics/CharacterSelect/CancelButton"),
+                ((Game1)Game).Content.Load<Texture2D>("Graphics/CharacterSelect/CancelButton-Hover"),
+                ((Game1)Game).Content.Load<Texture2D>("Graphics/CharacterSelect/CancelButton-Pressed"),
+                new Vector2(600, 660)
+                );
+
             Char1Button.ButtonPressed += Character1Selected;
             Char2Button.ButtonPressed += Character2Selected;
             Char3Button.ButtonPressed += Character3Selected;
             Char4Button.ButtonPressed += Character4Selected;
             NextButton.ButtonPressed += NextButtonPressed;
+            CancelButton.ButtonPressed += CancelOverwrite;
+            OKButton.ButtonPressed += Overwrite;
 
             base.Initialize();
         }
@@ -90,11 +108,20 @@ namespace FleetCom
         public override void Update(GameTime gameTime)
         {
             MouseState state = Mouse.GetState();
-            Char1Button.Update(state);
-            Char2Button.Update(state);
-            Char3Button.Update(state);
-            Char4Button.Update(state);
-            NextButton.Update(state);
+
+            if (isOverwriteWindowUp)
+            {
+                CancelButton.Update(state);
+                OKButton.Update(state);
+            }
+            else
+            {
+                Char1Button.Update(state);
+                Char2Button.Update(state);
+                Char3Button.Update(state);
+                Char4Button.Update(state);
+                NextButton.Update(state);
+            }
 
             switch (selectedCharacter)
             {
@@ -133,6 +160,13 @@ namespace FleetCom
             Char4Button.Draw(spriteBatch);
             NextButton.Draw(spriteBatch);
 
+            if (isOverwriteWindowUp)
+            {
+                OverwritePopup.Draw(spriteBatch);
+                OKButton.Draw(spriteBatch);
+                CancelButton.Draw(spriteBatch);
+            }
+
             spriteBatch.End();
             base.Draw(gameTime);
         }
@@ -159,6 +193,70 @@ namespace FleetCom
 
         void NextButtonPressed()
         {
+            Characters characterType = new Characters();
+
+            switch (selectedCharacter)
+            {
+                case 1:
+                    characterType = Characters.Aggressive;
+                    break;
+
+                case 2:
+                    characterType = Characters.Defensive;
+                    break;
+
+                case 3:
+                    characterType = Characters.Fast;
+                    break;
+
+                case 4:
+                    characterType = Characters.Tech;
+                    break;
+            }
+
+            string filename = "Players/" + characterType.ToString() + ".bin";
+
+            if (File.Exists(filename))
+            {
+                isOverwriteWindowUp = true;
+            }
+            else
+            {
+                ((Game1)Game).User = new Player(characterType, true);
+                ((Game1)Game).GameState = GameStates.GalaxyMap;
+            }
+        }
+
+        void CancelOverwrite()
+        {
+            isOverwriteWindowUp = false;
+        }
+
+        void Overwrite()
+        {
+            Characters characterType = new Characters();
+
+            switch (selectedCharacter)
+            {
+                case 1:
+                    characterType = Characters.Aggressive;
+                    break;
+
+                case 2:
+                    characterType = Characters.Defensive;
+                    break;
+
+                case 3:
+                    characterType = Characters.Fast;
+                    break;
+
+                case 4:
+                    characterType = Characters.Tech;
+                    break;
+            }
+
+            string filename = "Players/" + characterType.ToString() + ".bin";
+            ((Game1)Game).User = new Player(characterType, true);
             ((Game1)Game).GameState = GameStates.GalaxyMap;
         }
     }

@@ -84,7 +84,41 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Graphics\Environments\" />
+    <Compile Include="Graphics\CharacterSelect\CancelButton-Hover.png">
+      <Name>CancelButton-Hover</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\CharacterSelect\CancelButton-Pressed.png">
+      <Name>CancelButton-Pressed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\CharacterSelect\CancelButton.png">
+      <Name>CancelButton</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\CharacterSelect\CharacterExistsPopup.png">
+      <Name>CharacterExistsPopup</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\CharacterSelect\OKButton-Hover.png">
+      <Name>OKButton-Hover</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\CharacterSelect\OKButton-Pressed.png">
+      <Name>OKButton-Pressed</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\CharacterSelect\OKButton.png">
+      <Name>OKButton</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Graphics\CharacterSelect\Character1Button-Hover.png">
@@ -141,6 +175,13 @@
     </Compile>
     <Compile Include="Graphics\CharacterSelect\NextButton.png">
       <Name>NextButton</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Graphics\Environments\starfield.png">
+      <Name>starfield</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

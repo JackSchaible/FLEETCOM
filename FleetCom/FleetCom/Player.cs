@@ -7,6 +7,7 @@ using System.Text;
 
 namespace FleetCom
 {
+    [Serializable]
     public enum Characters
     {
         Aggressive,
@@ -14,14 +15,12 @@ namespace FleetCom
         Fast,
         Tech
     }
-    public delegate void CharacterExist();
 
     [Serializable()]
     public class Player
     {
         public Characters Character { get; set; }
-
-        public event CharacterExist CharacterExists;
+        public Galaxy Map { get; set; }
 
         private string FileName
         {
@@ -30,9 +29,7 @@ namespace FleetCom
                 return "Players/" + Character.ToString() + ".bin";
             }
         }
-        /// <summary>
-        /// Load a previously saved character
-        /// </summary>
+
         public Player(Characters character, bool newPlayer)
         {
             if (!newPlayer)
@@ -44,11 +41,7 @@ namespace FleetCom
             else
             {
                 Character = character;
-
-                if (File.Exists(FileName))
-                    CharacterExists();
-                else
-                    SaveCharacter();
+                SaveCharacter();
             }
         }
 
@@ -68,6 +61,9 @@ namespace FleetCom
 
         public void SaveCharacter()
         {
+            if (!Directory.Exists("Players"))
+                Directory.CreateDirectory("Players");
+
             Stream stream = File.Create(FileName);
             BinaryFormatter bf = new BinaryFormatter();
 

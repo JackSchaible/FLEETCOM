@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CharacterSelect.cs" />
+    <Compile Include="Galaxy.cs" />
     <Compile Include="GalaxyMap.cs" />
     <Compile Include="Graphics\ISprite.cs" />
     <Compile Include="Graphics\Sprite.cs" />
