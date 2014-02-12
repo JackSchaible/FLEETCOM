@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<XnaContent>
+  <Asset Type="System.String[]">
+    <Item>Andromeda</Item>
+    <Item>Apus</Item>
+    <Item>Aquarius</Item>
+    <Item>Aquila</Item>
+    <Item>Ara</Item>
+    <Item>Aries</Item>
+    <Item>Boötes</Item>
+    <Item>Cancer</Item>
+    <Item>Canis Major</Item>
+    <Item>Carina</Item>
+    <Item>Cassiopeia</Item>
+    <Item>Centaurus</Item>
+    <Item>Cetus</Item>
+    <Item>Circinus</Item>
+    <Item>Coma Berenices</Item>
+    <Item>Constellation</Item>
+    <Item>Cygnus</Item>
+    <Item>Dorado</Item>
+    <Item>Draco</Item>
+    <Item>Equuleus</Item>
+    <Item>Eridanus</Item>
+    <Item>Fornax</Item>
+    <Item>Hercules</Item>
+    <Item>Hydra</Item>
+    <Item>Hydrus</Item>
+    <Item>Leo</Item>
+    <Item>Lepus</Item>
+    <Item>Libra</Item>
+    <Item>Lupus</Item>
+    <Item>Lyra</Item>
+    <Item>Mensa</Item>
+    <Item>Monoceros</Item>
+    <Item>Ophiuchus</Item>
+    <Item>Orion</Item>
+    <Item>Pavo</Item>
+    <Item>Pegasus</Item>
+    <Item>Phoenix</Item>
+    <Item>Pictor</Item>
+    <Item>Pisces</Item>
+    <Item>Piscis Austrinus</Item>
+    <Item>Puppis</Item>
+    <Item>Reticulum</Item>
+    <Item>Sagittarius</Item>
+    <Item>Scorpius</Item>
+    <Item>Sextans</Item>
+    <Item>Taurus</Item>
+    <Item>Ursa Major</Item>
+    <Item>Vela</Item>
+    <Item>Virgo</Item>
+  </Asset>
+</XnaContent>

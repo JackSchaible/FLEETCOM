@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Media;
 using FleetCom.Graphics;
 using FleetCom.Graphics.UI;
 using System.IO;
+using System.Xml.Linq;
 
 
 namespace FleetCom
@@ -25,6 +26,8 @@ namespace FleetCom
         SpriteBatch spriteBatch;
         int selectedCharacter;
         bool isOverwriteWindowUp;
+        List<string> systemNames;
+        Texture2D starSystemNormalTexture, starSystemHoverTexture, starSystemDownTexture;
 
         public CharacterSelect(Game game)
             : base(game)
@@ -42,6 +45,7 @@ namespace FleetCom
             selectedCharacter = 1;
             isOverwriteWindowUp = false;
 
+            systemNames = ((Game1)Game).Content.Load<string[]>("Data/StarClusterNames").ToList<string>();
             Title = new Sprite(((Game1)Game).Content.Load<Texture2D>("Graphics/CharacterSelect/Title"),
                 new Vector2(60, 50), 1.0f, 0.0f, 1.0f);
             Char1Desc = new Sprite(((Game1)Game).Content.Load<Texture2D>("Graphics/CharacterSelect/Character1Desc"),
@@ -54,6 +58,9 @@ namespace FleetCom
                 new Vector2(1080, 700), 1.0f, 0.0f, 1.0f);
             OverwritePopup = new Sprite(((Game1)Game).Content.Load<Texture2D>("Graphics/CharacterSelect/CharacterExistsPopup"),
                 new Vector2(465, 275), 1.0f, 0.0f, 1.0f);
+            starSystemNormalTexture = ((Game1)Game).Content.Load<Texture2D>("Graphics/Environment/StarSystemNormalTexture");
+            starSystemHoverTexture = ((Game1)Game).Content.Load<Texture2D>("Graphics/Environment/StarSystemNormalTexture");
+            starSystemDownTexture = ((Game1)Game).Content.Load<Texture2D>("Graphics/Environment/StarSystemNormalTexture");
             Char1Button = new Button(((Game1)Game).Content.Load<Texture2D>("Graphics/CharacterSelect/Character1Button"),
                 ((Game1)Game).Content.Load<Texture2D>("Graphics/CharacterSelect/Character1Button-Hover"),
                 ((Game1)Game).Content.Load<Texture2D>("Graphics/CharacterSelect/Character1Button-Selected"),
@@ -222,7 +229,8 @@ namespace FleetCom
             }
             else
             {
-                ((Game1)Game).User = new Player(characterType, true);
+                ((Game1)Game).User = new Player(characterType, true, systemNames, 
+                    starSystemNormalTexture, starSystemHoverTexture, starSystemDownTexture);
                 ((Game1)Game).GameState = GameStates.GalaxyMap;
             }
         }
@@ -256,7 +264,8 @@ namespace FleetCom
             }
 
             string filename = "Players/" + characterType.ToString() + ".bin";
-            ((Game1)Game).User = new Player(characterType, true);
+            ((Game1)Game).User = new Player(characterType, true, systemNames,
+                    starSystemNormalTexture, starSystemHoverTexture, starSystemDownTexture);
             ((Game1)Game).GameState = GameStates.GalaxyMap;
         }
     }

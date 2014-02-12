@@ -95,6 +95,7 @@ namespace FleetCom
         /// </summary>
         protected override void UnloadContent()
         {
+            User.SaveCharacter();
             // TODO: Unload any non ContentManager content here
         }
 
