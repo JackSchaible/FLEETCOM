@@ -14,7 +14,7 @@ namespace FleetCom
         public List<StarCluster> StarClusters { get; set; }
 
         public Galaxy(List<string> systemNames, Texture2D starClusterNormalTexture,
-            Texture2D starClusterHoverTexture, Texture2D starClusterDownTexture)
+            Texture2D starClusterUnderAttackTexture, Texture2D starClusterUnownedTexture)
         {
             //Available slots for star clusters to be placed
             bool[,] slots = new bool[9, 5];
@@ -38,14 +38,10 @@ namespace FleetCom
                 //Get the position of the next star system
                 int[] pos = GetPosition(rnd, slots);
 
-                StarClusters.Add(new StarCluster
-                    (
-                        new Vector2(pos[0] * 200, pos[1] * 200),
-                        RandomValues(names).Take(1).ToString(),
-                        starClusterNormalTexture, starClusterHoverTexture,
-                        starClusterDownTexture
-                    )
-                );
+                StarClusters.Add(new StarCluster(new Vector2(pos[0] * 200, pos[1] * 200), 
+                    RandomValues(names).Take(1).ToString(), 
+                    starClusterNormalTexture, starClusterUnderAttackTexture,
+                    starClusterUnownedTexture, StarClusterStates.Unowned));
             }
         }
 

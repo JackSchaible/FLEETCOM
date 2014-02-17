@@ -58,9 +58,11 @@ namespace FleetCom
                 new Vector2(1080, 700), 1.0f, 0.0f, 1.0f);
             OverwritePopup = new Sprite(((Game1)Game).Content.Load<Texture2D>("Graphics/CharacterSelect/CharacterExistsPopup"),
                 new Vector2(465, 275), 1.0f, 0.0f, 1.0f);
-            starSystemNormalTexture = ((Game1)Game).Content.Load<Texture2D>("Graphics/Environment/StarSystemNormalTexture");
-            starSystemHoverTexture = ((Game1)Game).Content.Load<Texture2D>("Graphics/Environment/StarSystemNormalTexture");
-            starSystemDownTexture = ((Game1)Game).Content.Load<Texture2D>("Graphics/Environment/StarSystemNormalTexture");
+
+            //starSystemNormalTexture = ((Game1)Game).Content.Load<Texture2D>("Graphics/Environments/StarSystemNormalTexture");
+            //starSystemHoverTexture = ((Game1)Game).Content.Load<Texture2D>("Graphics/Environments/StarSystemNormalTexture");
+            //starSystemDownTexture = ((Game1)Game).Content.Load<Texture2D>("Graphics/Environments/StarSystemNormalTexture");
+
             Char1Button = new Button(((Game1)Game).Content.Load<Texture2D>("Graphics/CharacterSelect/Character1Button"),
                 ((Game1)Game).Content.Load<Texture2D>("Graphics/CharacterSelect/Character1Button-Hover"),
                 ((Game1)Game).Content.Load<Texture2D>("Graphics/CharacterSelect/Character1Button-Selected"),
