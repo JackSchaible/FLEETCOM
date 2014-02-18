@@ -75,9 +75,11 @@
     <Compile Include="CharacterSelect.cs" />
     <Compile Include="Galaxy.cs" />
     <Compile Include="GalaxyMap.cs" />
+    <Compile Include="Graphics\AnimatedSprite.cs" />
     <Compile Include="Graphics\ISprite.cs" />
     <Compile Include="Graphics\Sprite.cs" />
     <Compile Include="Graphics\UI\Button.cs" />
+    <Compile Include="Graphics\UI\ClusterStatus.cs" />
     <Compile Include="MainMenu.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -27,7 +27,8 @@ namespace FleetCom
         int selectedCharacter;
         bool isOverwriteWindowUp;
         List<string> systemNames;
-        Texture2D starSystemNormalTexture, starSystemHoverTexture, starSystemDownTexture;
+        Texture2D starClusterNormalTexture, starClusterUnderAttackTexture, starClusterUnownedTexture, clusterStatusTexture;
+        SpriteFont MH45, MH75;
 
         public CharacterSelect(Game game)
             : base(game)
@@ -59,9 +60,12 @@ namespace FleetCom
             OverwritePopup = new Sprite(((Game1)Game).Content.Load<Texture2D>("Graphics/CharacterSelect/CharacterExistsPopup"),
                 new Vector2(465, 275), 1.0f, 0.0f, 1.0f);
 
-            //starSystemNormalTexture = ((Game1)Game).Content.Load<Texture2D>("Graphics/Environments/StarSystemNormalTexture");
-            //starSystemHoverTexture = ((Game1)Game).Content.Load<Texture2D>("Graphics/Environments/StarSystemNormalTexture");
-            //starSystemDownTexture = ((Game1)Game).Content.Load<Texture2D>("Graphics/Environments/StarSystemNormalTexture");
+            starClusterUnderAttackTexture = ((Game1)Game).Content.Load<Texture2D>("Graphics/IncursionMap/UnderAttackSprite");
+            starClusterNormalTexture = ((Game1)Game).Content.Load<Texture2D>("Graphics/IncursionMap/OwnedTexture");
+            starClusterUnownedTexture = ((Game1)Game).Content.Load<Texture2D>("Graphics/IncursionMap/NormalTexture");
+            clusterStatusTexture = ((Game1)Game).Content.Load<Texture2D>("Graphics/IncursionMap/SystemStatus");
+            MH45 = ((Game1)Game).Content.Load<SpriteFont>("Graphics/Fonts/MyriadHebrew-45");
+            MH75 = ((Game1)Game).Content.Load<SpriteFont>("Graphics/Fonts/MyriadHebrew-75");
 
             Char1Button = new Button(((Game1)Game).Content.Load<Texture2D>("Graphics/CharacterSelect/Character1Button"),
                 ((Game1)Game).Content.Load<Texture2D>("Graphics/CharacterSelect/Character1Button-Hover"),
@@ -231,8 +235,9 @@ namespace FleetCom
             }
             else
             {
-                ((Game1)Game).User = new Player(characterType, true, systemNames, 
-                    starSystemNormalTexture, starSystemHoverTexture, starSystemDownTexture);
+                ((Game1)Game).User = new Player(characterType, true, systemNames,
+                    starClusterNormalTexture, starClusterUnderAttackTexture, starClusterUnownedTexture,
+                    clusterStatusTexture, MH45, MH75);
                 ((Game1)Game).GameState = GameStates.GalaxyMap;
             }
         }
@@ -267,7 +272,8 @@ namespace FleetCom
 
             string filename = "Players/" + characterType.ToString() + ".bin";
             ((Game1)Game).User = new Player(characterType, true, systemNames,
-                    starSystemNormalTexture, starSystemHoverTexture, starSystemDownTexture);
+                    starClusterNormalTexture, starClusterUnderAttackTexture, 
+                    starClusterUnownedTexture, clusterStatusTexture, MH45, MH75);
             ((Game1)Game).GameState = GameStates.GalaxyMap;
         }
     }

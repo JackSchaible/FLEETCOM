@@ -5,10 +5,11 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace FleetCom
 {
-    [Serializable]
     public enum Characters
     {
         Aggressive,
@@ -16,13 +17,12 @@ namespace FleetCom
         Fast,
         Tech
     }
-    [Serializable]
     public enum TutortialSteps
     {
-        GalaxyMap
+        GalaxyMap1,
+        Finished
     }
 
-    [Serializable()]
     public class Player
     {
         public Characters Character { get; set; }
@@ -33,13 +33,14 @@ namespace FleetCom
         {
             get
             {
-                return "Players/" + Character.ToString() + ".bin";
+                return "Players/" + Character.ToString() + ".xml";
             }
         }
 
         public Player(Characters character, bool newPlayer, List<string> systemNames, 
-            Texture2D starClusterNormalTexture, Texture2D starClusterHoverTexture, 
-            Texture2D starClusterDownTexture)
+            Texture2D starClusterNormalTexture, Texture2D starClusterUnderAttackTexture, 
+            Texture2D starClusterUnownedTexture, Texture2D clusterStatusTexture,
+            SpriteFont MH45, SpriteFont MH75)
         {
             if (!newPlayer)
             {
@@ -52,9 +53,10 @@ namespace FleetCom
             else
             {
                 Character = character;
-                TutorialStep = TutortialSteps.GalaxyMap;
-                Map = new Galaxy(systemNames, starClusterNormalTexture, 
-                    starClusterHoverTexture, starClusterDownTexture);
+                TutorialStep = TutortialSteps.GalaxyMap1;
+                Map = new Galaxy(systemNames, starClusterNormalTexture,
+                    starClusterUnderAttackTexture, starClusterUnownedTexture, 
+                    clusterStatusTexture, MH45, MH75);
 
                 SaveCharacter();
             }
@@ -79,10 +81,42 @@ namespace FleetCom
             if (!Directory.Exists("Players"))
                 Directory.CreateDirectory("Players");
 
-            Stream stream = File.Create(FileName);
-            BinaryFormatter bf = new BinaryFormatter();
+            XDocument xd = new XDocument();
+            XElement root = new XElement("Player",
+                new XAttribute("Character", Character)
+                );
 
-            bf.Serialize(stream, this);
+
+            //Create an element for each Star Cluster, and add each system
+            foreach (StarCluster item in Map.StarClusters)
+            {
+                XElement clusterElement = new XElement("StarCluster",
+                        new XAttribute("Name", item.Name),
+                        new XAttribute("X", item.Position.X),
+                        new XAttribute("Y", item.Position.Y),
+                        new XAttribute("State", item.State)
+                    );
+
+
+                foreach(StarSystem item2 in item.StarSystems)
+                {
+                    XElement systemElement = new XElement("StarSystem",
+                            new XAttribute("Name", item.Name),
+                            new XAttribute("X", item.Position.X),
+                            new XAttribute("Y", item.Position.Y),
+                            new XAttribute("State", item.State)
+                        );
+
+                    clusterElement.Add(systemElement);
+                }
+
+                root.Add(clusterElement);
+            }
+
+            xd.Add(root);
+
+            Stream stream = File.Create(FileName);
+            xd.Save(stream);
             stream.Close();
         }
     }

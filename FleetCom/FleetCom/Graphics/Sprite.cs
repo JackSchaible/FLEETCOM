@@ -24,12 +24,12 @@ namespace FleetCom.Graphics
             LayerDepth = layerDepth;
         }
 
-        public void Update()
+        public virtual void Update()
         {
 
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(Texture, Position, null, Color.White, Rotation, 
                 Vector2.Zero, Scale, SpriteEffects.None, LayerDepth);
