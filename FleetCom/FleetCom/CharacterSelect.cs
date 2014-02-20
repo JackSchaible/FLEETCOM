@@ -227,7 +227,7 @@ namespace FleetCom
                     break;
             }
 
-            string filename = "Players/" + characterType.ToString() + ".bin";
+            string filename = "Players/" + characterType.ToString() + ".xml";
 
             if (File.Exists(filename))
             {

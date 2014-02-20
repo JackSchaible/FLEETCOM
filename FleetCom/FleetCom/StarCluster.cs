@@ -16,7 +16,7 @@ namespace FleetCom
         UnderAttack,
         Owned
     }
-    public delegate void OnSelected();
+    public delegate void OnSelected(StarCluster sender);
 
     public class StarCluster
     {
@@ -85,7 +85,7 @@ namespace FleetCom
 
                 if (state.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
                 {
-                    ClusterSelected();
+                    ClusterSelected(this);
                     ButtonState = ButtonStates.Pressed;
                 }
             }
@@ -109,7 +109,7 @@ namespace FleetCom
             Vector2 result = new Vector2(Position.X + Texture.FrameWidth + 25,
                 Position.Y + (Texture.FrameHeight / 2) + 25);
 
-            if (Position.X >= 1600)
+            if (Position.X >= 1400)
             {
                 if (Position.Y >= 1000)
                     result = new Vector2(Position.X - 425, Position.Y - 200);

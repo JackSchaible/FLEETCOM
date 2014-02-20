@@ -32,6 +32,8 @@ namespace FleetCom
     {
         public Player User;
         public GameStates GameState;
+        public StarCluster selectedCluster;
+        public StarSystem selectedSystem;
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
@@ -69,7 +71,7 @@ namespace FleetCom
             #region Set Graphics Stuff
             graphics.PreferredBackBufferWidth = 1920;
             graphics.PreferredBackBufferHeight = 1080;
-            graphics.IsFullScreen = true;
+            //graphics.IsFullScreen = true;
             IsMouseVisible = true;
             graphics.ApplyChanges();
             Window.Title = "FLEETCOM 1.0";
@@ -95,7 +97,8 @@ namespace FleetCom
         /// </summary>
         protected override void UnloadContent()
         {
-            User.SaveCharacter();
+            if (User != null)
+                User.SaveCharacter();
             // TODO: Unload any non ContentManager content here
         }
 

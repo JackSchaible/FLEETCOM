@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,6 +21,8 @@ namespace FleetCom
     public enum TutortialSteps
     {
         GalaxyMap1,
+        GalaxyMap2,
+        GalaxyMap3,
         Finished
     }
 
@@ -28,6 +31,24 @@ namespace FleetCom
         public Characters Character { get; set; }
         public Galaxy Map { get; set; }
         public TutortialSteps TutorialStep { get; set; }
+
+        public static Dictionary<string, string> Ranks = new Dictionary<string, string>()
+        {
+            { "ENS", "Ensign" },
+            { "LTJG", "Lieutenant Jr. Grade" },
+            { "LT" , "Lieutenant" },
+            { "LTCDR", "Lieutenant Commander" },
+            { "CDR",  "Commander" },
+            { "CPT",  "Captain" },
+            { "RDML",  "Rear Admiral (Lower Half)" },
+            { "RADM",  "Rear Admiral" },
+            { "VAMD",  "Vice Admiral" },
+            { "ADM",  "Admiral" },
+            { "FADM",  "Fleet Admiral" },
+            { "AN", "Admiral of the Navy" }
+        };
+
+        public string Rank { get; set; }
 
         private string FileName
         {
@@ -44,11 +65,9 @@ namespace FleetCom
         {
             if (!newPlayer)
             {
-                Player player = LoadCharacter(character.ToString());
-
-                Character = player.Character;
-                Map = player.Map;
-                TutorialStep = player.TutorialStep;
+                LoadCharacter(character.ToString(), starClusterNormalTexture,
+                    starClusterUnderAttackTexture, starClusterUnownedTexture,
+                    clusterStatusTexture, MH45, MH75);
             }
             else
             {
@@ -57,23 +76,95 @@ namespace FleetCom
                 Map = new Galaxy(systemNames, starClusterNormalTexture,
                     starClusterUnderAttackTexture, starClusterUnownedTexture, 
                     clusterStatusTexture, MH45, MH75);
+                Rank = "ENS";
 
                 SaveCharacter();
             }
         }
 
-        public static Player LoadCharacter(string name)
+        public void LoadCharacter(string name, Texture2D starClusterNormalTexture, Texture2D starClusterUnderAttackTexture, 
+            Texture2D starClusterUnownedTexture, Texture2D clusterStatusTexture,
+            SpriteFont MH45, SpriteFont MH75)
         {
-            Player result = null;
+            string filename = "Players/" + name + ".xml";
 
-            string filename = "Players/" + name + ".bin";
+            XDocument doc = XDocument.Load(filename);
 
-            Stream stream = File.Open(filename, FileMode.Open);
-            BinaryFormatter bf = new BinaryFormatter();
-            result = (Player)bf.Deserialize(stream);
-            stream.Close();
+            //Get name & character type
+            switch (name)
+            { 
+                case "Aggressive":
+                    Character = Characters.Aggressive;
+                    break;
 
-            return result;
+                case "Defensive":
+                    Character = Characters.Defensive;
+                    break;
+
+                case "Fast":
+                    Character = Characters.Fast;
+                    break;
+
+                case "Tech":
+                    Character = Characters.Tech;
+                    break;
+            }
+
+            //Get Tutorial Progress
+            switch (doc.Element("Player").Attribute("TutorialStep").Value)
+            {
+                case "GalaxyMap1":
+                    TutorialStep = TutortialSteps.GalaxyMap1;
+                    break;
+
+                case "GalaxyMap2":
+                    TutorialStep = TutortialSteps.GalaxyMap2;
+                    break;
+
+                case "GalaxyMap3":
+                    TutorialStep = TutortialSteps.GalaxyMap3;
+                    break;
+
+                case "Finished":
+                    TutorialStep = TutortialSteps.Finished;
+                    break;
+            }
+
+            //Load rank
+            Rank = doc.Element("Player").Attribute("Rank").Value;
+
+            //Load map
+            foreach (XElement item in doc.Elements("StarCluster"))
+            {
+                StarClusterStates state = StarClusterStates.Unowned;
+
+                switch(item.Attribute("State").Value)
+                {
+                    case "Unowned":
+                        state = StarClusterStates.Unowned;
+                        break;
+
+                    case "UnderAttack":
+                        state = StarClusterStates.UnderAttack;
+                        break;
+
+                    case "Owned":
+                        state = StarClusterStates.Owned;
+                        break;
+                }
+
+                StarCluster cluster = new StarCluster(
+                    new Vector2(int.Parse(item.Attribute("X").Value), int.Parse(item.Attribute("Y").Value)),
+                    item.Attribute("Name").Value, starClusterUnownedTexture, starClusterUnderAttackTexture, starClusterNormalTexture,
+                    clusterStatusTexture, MH45, MH75, state);
+
+                foreach (XElement system in item.Elements("StarSystem"))
+                {
+                    //add systems to the cluster
+                }
+
+                Map.StarClusters.Add(cluster);
+            }
         }
 
         public void SaveCharacter()
@@ -83,7 +174,9 @@ namespace FleetCom
 
             XDocument xd = new XDocument();
             XElement root = new XElement("Player",
-                new XAttribute("Character", Character)
+                new XAttribute("Character", Character),
+                new XAttribute("TutorialStep", TutorialStep),
+                new XAttribute("Rank", Rank)
                 );
 
 
