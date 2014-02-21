@@ -237,7 +237,7 @@ namespace FleetCom
             {
                 ((Game1)Game).User = new Player(characterType, true, systemNames,
                     starClusterNormalTexture, starClusterUnderAttackTexture, starClusterUnownedTexture,
-                    clusterStatusTexture, MH45, MH75);
+                    clusterStatusTexture, MH45, MH75, ((Game1)Game));
                 ((Game1)Game).GameState = GameStates.GalaxyMap;
             }
         }
@@ -273,7 +273,7 @@ namespace FleetCom
             string filename = "Players/" + characterType.ToString() + ".bin";
             ((Game1)Game).User = new Player(characterType, true, systemNames,
                     starClusterNormalTexture, starClusterUnderAttackTexture, 
-                    starClusterUnownedTexture, clusterStatusTexture, MH45, MH75);
+                    starClusterUnownedTexture, clusterStatusTexture, MH45, MH75, ((Game1)Game));
             ((Game1)Game).GameState = GameStates.GalaxyMap;
         }
     }

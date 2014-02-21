@@ -50,6 +50,9 @@ namespace FleetCom
 
         public string Rank { get; set; }
 
+        public ResearchItem CurrentlyResearching { get; set; }
+        public int ResearchTurnsLeft { get; set; }
+
         private string FileName
         {
             get
@@ -61,7 +64,7 @@ namespace FleetCom
         public Player(Characters character, bool newPlayer, List<string> systemNames, 
             Texture2D starClusterNormalTexture, Texture2D starClusterUnderAttackTexture, 
             Texture2D starClusterUnownedTexture, Texture2D clusterStatusTexture,
-            SpriteFont MH45, SpriteFont MH75)
+            SpriteFont MH45, SpriteFont MH75, Game1 game)
         {
             if (!newPlayer)
             {
@@ -78,7 +81,7 @@ namespace FleetCom
                     clusterStatusTexture, MH45, MH75);
                 Rank = "ENS";
 
-                SaveCharacter();
+                SaveCharacter(game);
             }
         }
 
@@ -163,11 +166,13 @@ namespace FleetCom
                     //add systems to the cluster
                 }
 
+                //Load research
+
                 Map.StarClusters.Add(cluster);
             }
         }
 
-        public void SaveCharacter()
+        public void SaveCharacter(Game1 game)
         {
             if (!Directory.Exists("Players"))
                 Directory.CreateDirectory("Players");
@@ -205,6 +210,20 @@ namespace FleetCom
 
                 root.Add(clusterElement);
             }
+
+            XElement researchElement = new XElement("Research");
+
+            if (CurrentlyResearching != null)
+                researchElement.Add(new XElement("ResearchElement",
+                    new XAttribute("Key", CurrentlyResearching.Name),
+                    new XAttribute("TimeLeft", ResearchTurnsLeft)));
+
+            foreach (ResearchItem item in (game.ResearchTree.Where(x => x.Value.Researched).Select(x => x.Value)))
+                researchElement.Add(new XElement("ResearchElement",
+                    new XAttribute("Key", item.Name)
+                    ));
+
+            root.Add(researchElement);
 
             xd.Add(root);
 

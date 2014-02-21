@@ -186,6 +186,8 @@ namespace FleetCom
 
         void ResearchButton_ButtonPressed()
         {
+            ((Game1)Game).PreviousGameState = GameStates.GalaxyMap;
+            ((Game1)Game).GameState = GameStates.Research;
         }
     }
 }
