@@ -44,13 +44,13 @@ namespace FleetCom.Graphics.UI
         public Vector2 Position { get; set; }
         public event ButtonPress ButtonPressed;
         public ButtonStates ButtonState { get; set; }
+        public Rectangle CollisionRect { get; set; }
 
-        private Texture2D NormalTexture;
-        private Texture2D HoverTexture;
-        private Texture2D DownTexture;
+        protected Texture2D NormalTexture;
+        protected Texture2D HoverTexture;
+        protected Texture2D DownTexture;
         private MouseState mouseState;
         private MouseState previousMouseState;
-        private Rectangle rectangle;
 
         public Button(Texture2D normalTexture, Texture2D hoverTexture, Texture2D downTexture,
             Vector2 position)
@@ -63,16 +63,16 @@ namespace FleetCom.Graphics.UI
             mouseState = Mouse.GetState();
             previousMouseState = mouseState;
 
-            rectangle = new Rectangle((int)Position.X, (int)Position.Y,
+            CollisionRect = new Rectangle((int)Position.X, (int)Position.Y,
                     Texture.Width,
                     Texture.Height);
         }
 
-        public void Update (MouseState currentState)
+        public virtual void Update(MouseState currentState)
         {
             mouseState = currentState;
 
-            if (rectangle.Contains(new Point(mouseState.X, mouseState.Y)))
+            if (CollisionRect.Contains(new Point(mouseState.X, mouseState.Y)))
             {
                 if (mouseState.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
                 {
@@ -85,11 +85,29 @@ namespace FleetCom.Graphics.UI
             else
                 ButtonState = ButtonStates.Normal;
         }
-        
-        public void Draw(SpriteBatch spriteBatch)
+
+        public virtual void Update(MouseState currentState, Camera camera)
         {
-            spriteBatch.Draw(Texture, Position, null, Color.White, 0.0f,
-                Vector2.Zero, 1.0f, SpriteEffects.None, 1.0f);
+            mouseState = currentState;
+            Vector2 mouse = Vector2.Transform(new Vector2(currentState.X, currentState.Y), camera.InverseTransform);
+            
+            if (CollisionRect.Contains(new Point((int)mouse.X, (int)mouse.Y)))
+            {
+                if (mouseState.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+                {
+                    ButtonState = ButtonStates.Pressed;
+                    ButtonPressed();
+                }
+                else
+                    ButtonState = ButtonStates.Hover;
+            }
+            else
+                ButtonState = ButtonStates.Normal;
+        }
+
+        public virtual void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(Texture, Position, null, Color.White, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 1.0f);
         }
     }
 }

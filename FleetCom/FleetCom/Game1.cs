@@ -35,18 +35,16 @@ namespace FleetCom
         public GameStates PreviousGameState;
         public StarCluster selectedCluster;
         public StarSystem selectedSystem;
-        public Dictionary<string, ResearchItem> ResearchTree;
         public Dictionary<string, Ship> Ships;
-
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-
         #region GameComponents
         MainMenu mainMenu;
         CharacterSelect characterSelect;
         GalaxyMap galaxyMap;
-        ResearchMenu researchMenu;
+        public ResearchMenu ResearchMenu;
         #endregion
+
+        GraphicsDeviceManager graphics;
+        SpriteBatch spriteBatch;
 
         public Game1()
         {
@@ -68,12 +66,12 @@ namespace FleetCom
             mainMenu = new MainMenu(this);
             characterSelect = new CharacterSelect(this);
             galaxyMap = new GalaxyMap(this);
-            researchMenu = new ResearchMenu(this);
+            ResearchMenu = new ResearchMenu(this);
 
             Components.Add(mainMenu);
             Components.Add(characterSelect);
             Components.Add(galaxyMap);
-            Components.Add(researchMenu);
+            Components.Add(ResearchMenu);
             #endregion
             #region Set Graphics Stuff
             graphics.PreferredBackBufferWidth = 1920;
@@ -83,10 +81,9 @@ namespace FleetCom
             graphics.ApplyChanges();
             Window.Title = "FLEETCOM 1.0";
             #endregion
-            ResearchTree = Utils.InitializeResearchTree(this);
-            Ships = Utils.InitializeShipsList(this);
-
+            
             base.Initialize();
+            Ships = Utils.InitializeShipsList(this);
         }
 
         /// <summary>
@@ -124,14 +121,22 @@ namespace FleetCom
             switch (GameState)
             {
                 case GameStates.MainMenu:
-                    mainMenu.Enabled = true;
-                    mainMenu.Visible = true;
+                    mainMenu.Enabled = false;
+                    mainMenu.Visible = false;
                     characterSelect.Visible = false;
                     characterSelect.Enabled = false;
                     galaxyMap.Enabled = false;
                     galaxyMap.Visible = false;
-                    researchMenu.Enabled = false;
-                    researchMenu.Visible = false;
+                    ResearchMenu.Enabled = true;
+                    ResearchMenu.Visible = true;
+                    //mainMenu.Enabled = true;
+                    //mainMenu.Visible = true;
+                    //characterSelect.Visible = false;
+                    //characterSelect.Enabled = false;
+                    //galaxyMap.Enabled = false;
+                    //galaxyMap.Visible = false;
+                    //researchMenu.Enabled = false;
+                    //researchMenu.Visible = false;
                     break;
 
                 case GameStates.CharacterSelect:
@@ -141,8 +146,8 @@ namespace FleetCom
                     characterSelect.Enabled = true;
                     galaxyMap.Enabled = false;
                     galaxyMap.Visible = false;
-                    researchMenu.Enabled = false;
-                    researchMenu.Visible = false;
+                    ResearchMenu.Enabled = false;
+                    ResearchMenu.Visible = false;
                     break;
 
                 case GameStates.GalaxyMap:
@@ -152,8 +157,8 @@ namespace FleetCom
                     characterSelect.Enabled = false;
                     galaxyMap.Enabled = true;
                     galaxyMap.Visible = true;
-                    researchMenu.Enabled = false;
-                    researchMenu.Visible = false;
+                    ResearchMenu.Enabled = false;
+                    ResearchMenu.Visible = false;
                     break;
 
                 case GameStates.Research:
@@ -163,8 +168,8 @@ namespace FleetCom
                     characterSelect.Enabled = false;
                     galaxyMap.Enabled = false;
                     galaxyMap.Visible = false;
-                    researchMenu.Enabled = true;
-                    researchMenu.Visible = true;
+                    ResearchMenu.Enabled = true;
+                    ResearchMenu.Visible = true;
                     break;
             }
 

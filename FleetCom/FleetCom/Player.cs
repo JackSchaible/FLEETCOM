@@ -218,7 +218,7 @@ namespace FleetCom
                     new XAttribute("Key", CurrentlyResearching.Name),
                     new XAttribute("TimeLeft", ResearchTurnsLeft)));
 
-            foreach (ResearchItem item in (game.ResearchTree.Where(x => x.Value.Researched).Select(x => x.Value)))
+            foreach (ResearchItem item in (game.ResearchMenu.ResearchTree.Where(x => x.Value.Researched).Select(x => x.Value)))
                 researchElement.Add(new XElement("ResearchElement",
                     new XAttribute("Key", item.Name)
                     ));
