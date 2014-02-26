@@ -21,6 +21,7 @@ namespace FleetCom
         GalaxyMap,
         PauseMenu,
         Research,
+        Fleet,
         InGame,
         GameOver
     }
@@ -40,7 +41,7 @@ namespace FleetCom
         MainMenu mainMenu;
         CharacterSelect characterSelect;
         GalaxyMap galaxyMap;
-        public ResearchMenu ResearchMenu;
+        public ResearchMenu researchMenu;
         #endregion
 
         GraphicsDeviceManager graphics;
@@ -66,17 +67,17 @@ namespace FleetCom
             mainMenu = new MainMenu(this);
             characterSelect = new CharacterSelect(this);
             galaxyMap = new GalaxyMap(this);
-            ResearchMenu = new ResearchMenu(this);
+            researchMenu = new ResearchMenu(this);
 
             Components.Add(mainMenu);
             Components.Add(characterSelect);
             Components.Add(galaxyMap);
-            Components.Add(ResearchMenu);
+            Components.Add(researchMenu);
             #endregion
             #region Set Graphics Stuff
             graphics.PreferredBackBufferWidth = 1920;
             graphics.PreferredBackBufferHeight = 1080;
-            //graphics.IsFullScreen = true;
+            graphics.IsFullScreen = true;
             IsMouseVisible = true;
             graphics.ApplyChanges();
             Window.Title = "FLEETCOM 1.0";
@@ -121,22 +122,14 @@ namespace FleetCom
             switch (GameState)
             {
                 case GameStates.MainMenu:
-                    mainMenu.Enabled = false;
-                    mainMenu.Visible = false;
+                    mainMenu.Enabled = true;
+                    mainMenu.Visible = true;
                     characterSelect.Visible = false;
                     characterSelect.Enabled = false;
                     galaxyMap.Enabled = false;
                     galaxyMap.Visible = false;
-                    ResearchMenu.Enabled = true;
-                    ResearchMenu.Visible = true;
-                    //mainMenu.Enabled = true;
-                    //mainMenu.Visible = true;
-                    //characterSelect.Visible = false;
-                    //characterSelect.Enabled = false;
-                    //galaxyMap.Enabled = false;
-                    //galaxyMap.Visible = false;
-                    //researchMenu.Enabled = false;
-                    //researchMenu.Visible = false;
+                    researchMenu.Enabled = false;
+                    researchMenu.Visible = false;
                     break;
 
                 case GameStates.CharacterSelect:
@@ -146,8 +139,8 @@ namespace FleetCom
                     characterSelect.Enabled = true;
                     galaxyMap.Enabled = false;
                     galaxyMap.Visible = false;
-                    ResearchMenu.Enabled = false;
-                    ResearchMenu.Visible = false;
+                    researchMenu.Enabled = false;
+                    researchMenu.Visible = false;
                     break;
 
                 case GameStates.GalaxyMap:
@@ -157,8 +150,8 @@ namespace FleetCom
                     characterSelect.Enabled = false;
                     galaxyMap.Enabled = true;
                     galaxyMap.Visible = true;
-                    ResearchMenu.Enabled = false;
-                    ResearchMenu.Visible = false;
+                    researchMenu.Enabled = false;
+                    researchMenu.Visible = false;
                     break;
 
                 case GameStates.Research:
@@ -168,8 +161,8 @@ namespace FleetCom
                     characterSelect.Enabled = false;
                     galaxyMap.Enabled = false;
                     galaxyMap.Visible = false;
-                    ResearchMenu.Enabled = true;
-                    ResearchMenu.Visible = true;
+                    researchMenu.Enabled = true;
+                    researchMenu.Visible = true;
                     break;
             }
 

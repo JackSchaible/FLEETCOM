@@ -140,18 +140,22 @@ namespace FleetCom
             {
                 case 1:
                     Char1Button.ButtonState = ButtonStates.Pressed;
+                    Char1Button.Texture = Char1Button.DownTexture;
                     break;
 
                 case 2:
                     Char2Button.ButtonState = ButtonStates.Pressed;
+                    Char2Button.Texture = Char2Button.DownTexture;
                     break;
 
                 case 3:
                     Char3Button.ButtonState = ButtonStates.Pressed;
+                    Char3Button.Texture = Char3Button.DownTexture;
                     break;
 
                 case 4:
                     Char4Button.ButtonState = ButtonStates.Pressed;
+                    Char4Button.Texture = Char4Button.DownTexture;
                     break;
             }
 

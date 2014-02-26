@@ -16,6 +16,7 @@ namespace FleetCom
         Researching,
         Researched
     }
+    public delegate void ResearchStart(ResearchItem sender);
     public class ResearchItem : Button
     {
         public List<string> Prerequisites { get; set; }
@@ -25,6 +26,7 @@ namespace FleetCom
         public int TurnsResearched { get; set; }
         public int TurnsToResearch { get; set; }
         public ResearchStates ResearchState { get; set; }
+        public ResearchStart ResearchStarted;
 
         private Texture2D PopupTexture;
 
@@ -42,28 +44,49 @@ namespace FleetCom
             TurnsResearched = 0;
         }
 
-        public override void Update(MouseState currentState, Camera camera)
+        public void Update(MouseState currentState, Camera camera)
         {
-            base.Update(currentState, camera);
+            mouseState = currentState;
+            Vector2 mouse = Vector2.Transform(new Vector2(currentState.X, currentState.Y), camera.InverseTransform);
+
+            if (CollisionRect.Contains(new Point((int)mouse.X, (int)mouse.Y)))
+            {
+                if (mouseState.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
+                {
+                    ButtonState = ButtonStates.Pressed;
+                    Texture = DownTexture;
+
+                    if (ResearchState == ResearchStates.NotResearched)
+                        ResearchStarted(this);
+                }
+                else
+                {
+                    ButtonState = ButtonStates.Hover;
+                    Texture = HoverTexture;
+                }
+            }
+            else
+            {
+                ButtonState = ButtonStates.Normal;
+
+                if (ResearchState == ResearchStates.Researched)
+                    Texture = DownTexture;
+                else if (ResearchState == ResearchStates.Researching)
+                    Texture = HoverTexture;
+                else
+                    Texture = NormalTexture;
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch, SpriteFont font)
         {
-            switch (ResearchState)
-            {
-                case ResearchStates.Researching:
-                    spriteBatch.DrawString(font, (TurnsResearched / TurnsToResearch).ToString("P"), new Vector2(Position.X, Position.Y + 150), Color.White);
-                    break;
-
-                case ResearchStates.Researched:
-                    spriteBatch.Draw(DownTexture, Position, null, Color.White, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 1.0f);
-                    break;
-            }
+            if (ResearchState == ResearchStates.Researching)
+                    spriteBatch.DrawString(font, (TurnsResearched / TurnsToResearch).ToString("P"), new Vector2(Position.X + 150, Position.Y + 150), new Color(247.0f, 148.0f, 30.0f));
 
             if (ButtonState == ButtonStates.Hover)
-                spriteBatch.Draw(PopupTexture, new Vector2(Position.X + 150, Position.Y + 150), null, Color.White, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 1.0f);
+                spriteBatch.Draw(PopupTexture, new Vector2(Position.X + 150, Position.Y + 150), null, Color.White, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0.5f);
 
-            base.Draw(spriteBatch);
+            spriteBatch.Draw(Texture, Position, null, Color.White, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0.5f);
         }
     }
 }

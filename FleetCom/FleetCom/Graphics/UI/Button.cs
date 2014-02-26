@@ -17,40 +17,17 @@ namespace FleetCom.Graphics.UI
     public delegate void ButtonPress();
     public class Button
     {
-        public Texture2D Texture
-        {
-            get
-            {
-                Texture2D result = null;
-
-                switch (ButtonState)
-                {
-                    case ButtonStates.Normal:
-                        result = NormalTexture;
-                        break;
-
-                    case ButtonStates.Hover:
-                        result = HoverTexture;
-                        break;
-
-                    case ButtonStates.Pressed:
-                        result = DownTexture;
-                        break;
-                }
-
-                return result;
-            }
-        }
+        public Texture2D Texture { get; set; }
         public Vector2 Position { get; set; }
         public event ButtonPress ButtonPressed;
         public ButtonStates ButtonState { get; set; }
         public Rectangle CollisionRect { get; set; }
+        public Texture2D NormalTexture { get; set; }
+        public Texture2D HoverTexture { get; set; }
+        public Texture2D DownTexture { get; set; }
 
-        protected Texture2D NormalTexture;
-        protected Texture2D HoverTexture;
-        protected Texture2D DownTexture;
-        private MouseState mouseState;
-        private MouseState previousMouseState;
+        protected MouseState mouseState;
+        protected MouseState previousMouseState;
 
         public Button(Texture2D normalTexture, Texture2D hoverTexture, Texture2D downTexture,
             Vector2 position)
@@ -58,6 +35,7 @@ namespace FleetCom.Graphics.UI
             NormalTexture = normalTexture;
             HoverTexture = hoverTexture;
             DownTexture = downTexture;
+            Texture = NormalTexture;
             Position = position;
 
             mouseState = Mouse.GetState();
@@ -84,25 +62,21 @@ namespace FleetCom.Graphics.UI
             }
             else
                 ButtonState = ButtonStates.Normal;
-        }
 
-        public virtual void Update(MouseState currentState, Camera camera)
-        {
-            mouseState = currentState;
-            Vector2 mouse = Vector2.Transform(new Vector2(currentState.X, currentState.Y), camera.InverseTransform);
-            
-            if (CollisionRect.Contains(new Point((int)mouse.X, (int)mouse.Y)))
+            switch (ButtonState)
             {
-                if (mouseState.LeftButton == Microsoft.Xna.Framework.Input.ButtonState.Pressed)
-                {
-                    ButtonState = ButtonStates.Pressed;
-                    ButtonPressed();
-                }
-                else
-                    ButtonState = ButtonStates.Hover;
+                case ButtonStates.Normal:
+                    Texture = NormalTexture;
+                    break;
+
+                case ButtonStates.Hover:
+                    Texture = HoverTexture;
+                    break;
+
+                case ButtonStates.Pressed:
+                    Texture = DownTexture;
+                    break;
             }
-            else
-                ButtonState = ButtonStates.Normal;
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)

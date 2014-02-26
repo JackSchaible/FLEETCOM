@@ -29,28 +29,23 @@ namespace FleetCom.Graphics
             Zoom = 1.0f;
         }
 
-        public void Update(KeyboardState keyState)
+        public void Update(MouseState state)
         {
-            if (keyState.IsKeyDown(Keys.A))
-            {
-                Position.X += 20f;
-            }
-            if (keyState.IsKeyDown(Keys.D))
-            {
-                Position.X -= 20f;
-            }
-            if (keyState.IsKeyDown(Keys.W))
-            {
-                Position.Y -= 20f;
-            }
-            if (keyState.IsKeyDown(Keys.S))
-            {
-                Position.Y += 20f;
-            }
-            if (keyState.IsKeyDown(Keys.C))
-                Zoom += 0.01f;
-            if (keyState.IsKeyDown(Keys.Z))
-                Zoom -= 0.01f;
+            if (state.X < 5)
+                if (Position.X < 0)
+                    Position.X += 20f;
+
+            if (state.Y < 5)
+                if (Position.Y <= 1250)
+                    Position.Y += 20f;
+
+            if (state.X > 1915)
+                if (Position.X > -1900)
+                    Position.X -= 20f;
+
+            if (state.Y > 1075)
+                if (Position.Y >= -1250)
+                    Position.Y -= 20f;
 
             Translation = Matrix.CreateTranslation(Position.X, Position.Y, 0);
             InverseTransform = Matrix.Invert(Translation);
