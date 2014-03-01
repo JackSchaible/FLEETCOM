@@ -23,6 +23,7 @@ namespace FleetCom
         GalaxyMap1,
         GalaxyMap2,
         GalaxyMap3,
+        GalaxyMap4,
         Finished
     }
 
@@ -30,7 +31,6 @@ namespace FleetCom
     {
         public Characters Character { get; set; }
         public Galaxy Map { get; set; }
-        public TutortialSteps TutorialStep { get; set; }
 
         public static Dictionary<string, string> Ranks = new Dictionary<string, string>()
         {
@@ -50,8 +50,9 @@ namespace FleetCom
 
         public string Rank { get; set; }
 
-        public ResearchItem CurrentlyResearching { get; set; }
-        public int ResearchTurnsLeft { get; set; }
+        public TutortialSteps TutorialStep { get; set; }
+        public bool ResearchTutorial { get; set; }
+        public bool FleetTutorial { get; set; }
 
         private string FileName
         {
@@ -80,6 +81,7 @@ namespace FleetCom
                     starClusterUnderAttackTexture, starClusterUnownedTexture, 
                     clusterStatusTexture, MH45, MH75);
                 Rank = "ENS";
+                ResearchTutorial = false;
 
                 SaveCharacter(game);
             }
@@ -133,6 +135,9 @@ namespace FleetCom
                     break;
             }
 
+            if (doc.Elements("Player").Elements("ResearchTutorial") != null)
+                ResearchTutorial = true;
+
             //Load rank
             Rank = doc.Element("Player").Attribute("Rank").Value;
 
@@ -184,6 +189,8 @@ namespace FleetCom
                 new XAttribute("Rank", Rank)
                 );
 
+            if (ResearchTutorial)
+                root.Add(new XAttribute("ResearchTutorial", "True"));
 
             //Create an element for each Star Cluster, and add each system
             foreach (StarCluster item in Map.StarClusters)
@@ -213,12 +220,12 @@ namespace FleetCom
 
             XElement researchElement = new XElement("Research");
 
-            if (CurrentlyResearching != null)
+            if (((Game1)game).ResearchMenu.CurrentlyResearching != null)
                 researchElement.Add(new XElement("ResearchElement",
-                    new XAttribute("Key", CurrentlyResearching.Name),
-                    new XAttribute("TimeLeft", ResearchTurnsLeft)));
+                    new XAttribute("Key", ((Game1)game).ResearchMenu.CurrentlyResearching),
+                    new XAttribute("TimeLeft", ((Game1)game).ResearchMenu.ResearchCounter)));
 
-            foreach (ResearchItem item in (game.researchMenu.ResearchTree.Where(x => x.Value.Researched).Select(x => x.Value)))
+            foreach (ResearchItem item in (game.ResearchMenu.ResearchTree.Where(x => x.Value.ResearchState == ResearchStates.Researched).Select(x => x.Value)))
                 researchElement.Add(new XElement("ResearchElement",
                     new XAttribute("Key", item.Name)
                     ));

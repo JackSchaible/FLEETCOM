@@ -72,11 +72,12 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CharacterSelect.cs" />
+    <Compile Include="Game Components\CharacterSelect.cs" />
     <Compile Include="Galaxy.cs" />
-    <Compile Include="GalaxyMap.cs" />
+    <Compile Include="Game Components\FleetMenu.cs" />
+    <Compile Include="Game Components\GalaxyMap.cs" />
     <Compile Include="Graphics\AnimatedSprite.cs" />
-    <Compile Include="Graphics\Camera.cs" />
+    <Compile Include="Graphics\ResearchCamera.cs" />
     <Compile Include="Graphics\ISprite.cs" />
     <Compile Include="Graphics\Sprite.cs" />
     <Compile Include="Graphics\UI\Button.cs" />
@@ -86,11 +87,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
-    <Compile Include="ResearchItem.cs" />
-    <Compile Include="ResearchMenu.cs" />
-    <Compile Include="Ship.cs" />
-    <Compile Include="StarCluster.cs" />
-    <Compile Include="StarSystem.cs" />
+    <Compile Include="Classes\ResearchItem.cs" />
+    <Compile Include="Game Components\ResearchMenu.cs" />
+    <Compile Include="Classes\Ship.cs" />
+    <Compile Include="Classes\StarCluster.cs" />
+    <Compile Include="Classes\StarSystem.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -127,6 +128,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
   <!--

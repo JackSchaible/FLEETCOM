@@ -29,6 +29,7 @@ namespace FleetCom
         public ResearchStart ResearchStarted;
 
         private Texture2D PopupTexture;
+        //private Game1 Game;
 
         public ResearchItem(List<string> prereqs, string name, int cost, int turnsToResearch, 
             Texture2D popupTexture, Texture2D normalTexture, Texture2D hoverTexture, Texture2D pressedTexture,
@@ -44,7 +45,7 @@ namespace FleetCom
             TurnsResearched = 0;
         }
 
-        public void Update(MouseState currentState, Camera camera)
+        public void Update(MouseState currentState, ResearchCamera camera)
         {
             mouseState = currentState;
             Vector2 mouse = Vector2.Transform(new Vector2(currentState.X, currentState.Y), camera.InverseTransform);

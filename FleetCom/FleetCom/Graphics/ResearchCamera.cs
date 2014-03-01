@@ -8,7 +8,7 @@ using System.Text;
 
 namespace FleetCom.Graphics
 {
-    public class Camera
+    public class ResearchCamera
     {
         protected Viewport _viewport;
         protected MouseState _mState;
@@ -22,7 +22,7 @@ namespace FleetCom.Graphics
         public delegate void PositionChange();
         public PositionChange PositionChanged;
 
-        public Camera(Viewport viewport)
+        public ResearchCamera(Viewport viewport)
         {
             Position = Vector2.Zero;
             _viewport = viewport;

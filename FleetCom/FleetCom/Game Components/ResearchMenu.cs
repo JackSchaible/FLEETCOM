@@ -25,12 +25,12 @@ namespace FleetCom
 
         bool showPrereqPopup;
         bool showCurrentlyResearchingPopup;
-        Camera camera;
+        ResearchCamera camera;
         SpriteBatch spriteBatch;
-        SpriteFont font;
+        SpriteFont MH30, MH45;
         
         Button OKButton, BackButton, FleetButton;
-        Sprite ResearchMap, PrereqPopup, ResearchingPopup, Title;
+        Sprite ResearchMap, PrereqPopup, ResearchingPopup, Title, Tutorial;
 
         public ResearchMenu(Game game)
             : base(game)
@@ -43,16 +43,17 @@ namespace FleetCom
             showPrereqPopup = false;
             ResearchCounter = 0;
             spriteBatch = new SpriteBatch(Game.GraphicsDevice);
-            camera = new Camera(((Game1)Game).GraphicsDevice.Viewport);
+            camera = new ResearchCamera(((Game1)Game).GraphicsDevice.Viewport);
             ResearchMap = new Sprite(
                 ((Game1)Game).Content.Load<Texture2D>("Graphics/ResearchMenu/Layout"),
                 new Vector2(100, -945), 1.0f, 0.0f, 0.1f);
-            font = ((Game1)Game).Content.Load<SpriteFont>("Graphics/Fonts/MyriadHebrew-45");
+            MH30 = ((Game1)Game).Content.Load<SpriteFont>("Graphics/Fonts/MyriadHebrew-30");
+            MH45 = ((Game1)Game).Content.Load<SpriteFont>("Graphics/Fonts/MyriadHebrew-45");
             OKButton = new Button(
                 ((Game1)Game).Content.Load<Texture2D>("Graphics/UI/OKButton"),
                 ((Game1)Game).Content.Load<Texture2D>("Graphics/UI/OKButton-Hover"),
                 ((Game1)Game).Content.Load<Texture2D>("Graphics/UI/OKButton-Pressed"),
-                new Vector2(810, 640));
+                new Vector2(810, 675));
             OKButton.ButtonPressed += OKButton_ButtonPressed;
             BackButton = new Button(((Game1)Game).Content.Load<Texture2D>("Graphics/UI/BackButton"),
                 ((Game1)Game).Content.Load<Texture2D>("Graphics/UI/BackButton-Hover"),
@@ -65,12 +66,15 @@ namespace FleetCom
                 new Vector2(1175, 20));
             FleetButton.ButtonPressed += FleetButton_ButtonPressed;
             PrereqPopup = new Sprite(((Game1)Game).Content.Load<Texture2D>("Graphics/ResearchMenu/PrereqMsg"),
-                new Vector2(460, 290), 1.0f, 0.0f, 0.9f);
+                new Vector2(460, 300), 1.0f, 0.0f, 0.9f);
             ResearchingPopup = new Sprite(((Game1)Game).Content.Load<Texture2D>("Graphics/ResearchMenu/ResearchingPopup"),
-                new Vector2(460, 290), 1.0f, 0.0f, 0.9f);
+                new Vector2(460, 300), 1.0f, 0.0f, 0.9f);
             Title = new Sprite(((Game1)Game).Content.Load<Texture2D>("Graphics/ResearchMenu/Title"), 
                 new Vector2(0, 0), 1.0f, 0.0f, 1.0f);
-
+            CurrentlyResearching = "";
+            ResearchCounter = 0;
+            Tutorial = new Sprite(((Game1)Game).Content.Load<Texture2D>("Graphics/ResearchMenu/Tutorial1"), 
+                new Vector2(430, 155), 1.0f, 0.0f, 0.9f);
             #region Research Items
             ResearchTree = new Dictionary<string, ResearchItem>();
             ResearchTree.Add("Space Flight", new ResearchItem(new List<string>(), "Space Flight", 0, 0,
@@ -342,21 +346,22 @@ namespace FleetCom
         public override void Update(GameTime gameTime)
         {
             MouseState state = Mouse.GetState();
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-                ((Game1)Game).Exit();
 
-            if (!showPrereqPopup && !showCurrentlyResearchingPopup)
-            {
-                camera.Update(state);
-                foreach (ResearchItem item in ResearchTree.Values)
-                    item.Update(state, camera);
-                FleetButton.Update(state);
-                BackButton.Update(state);
-            }
-            else
+            if (!((Game1)Game).User.ResearchTutorial)
                 OKButton.Update(state);
-
-            
+            else
+            {
+                if (!showPrereqPopup && !showCurrentlyResearchingPopup)
+                {
+                    camera.Update(state);
+                    foreach (ResearchItem item in ResearchTree.Values)
+                        item.Update(state, camera);
+                    FleetButton.Update(state);
+                    BackButton.Update(state);
+                }
+                else
+                    OKButton.Update(state);
+            }
 
             base.Update(gameTime);
         }
@@ -366,7 +371,7 @@ namespace FleetCom
             spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, null, null, null, null, camera.Translation);
 
             foreach (ResearchItem item in ResearchTree.Values)
-                item.Draw(spriteBatch, font);
+                item.Draw(spriteBatch, MH45);
 
             ResearchMap.Draw(spriteBatch);
 
@@ -379,18 +384,42 @@ namespace FleetCom
             BackButton.Draw(spriteBatch);
             FleetButton.Draw(spriteBatch);
 
+            if (!((Game1)Game).User.ResearchTutorial)
+            {
+                Tutorial.Draw(spriteBatch);
+                spriteBatch.DrawString(MH30, "<<To: " + Player.Ranks[((Game1)Game).User.Rank] + " " + ((Game1)Game).User.Character + ">>", new Vector2(465, 335), Color.White);
+            }
+
             if (showCurrentlyResearchingPopup)
                 ResearchingPopup.Draw(spriteBatch);
 
             if (showPrereqPopup)
                 PrereqPopup.Draw(spriteBatch);
 
-            if (showCurrentlyResearchingPopup || showPrereqPopup)
+            if (showCurrentlyResearchingPopup || showPrereqPopup || !((Game1)Game).User.ResearchTutorial)
                 OKButton.Draw(spriteBatch);
 
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        public void DecrementResearchCounter()
+        {
+            if (ResearchCounter > 0)
+                ResearchCounter--;
+            else
+                ResearchCompleted();
+
+            if (ResearchCounter <= 0)
+                ResearchCompleted();
+        }
+
+        void ResearchCompleted()
+        {
+            ResearchTree[CurrentlyResearching].ResearchState = ResearchStates.Researched;
+            CurrentlyResearching = "";
+            ResearchCounter = 0;
         }
 
         void ResearchStarted(ResearchItem sender)
@@ -420,6 +449,9 @@ namespace FleetCom
 
         void OKButton_ButtonPressed()
         {
+            if (!((Game1)Game).User.ResearchTutorial)
+                ((Game1)Game).User.ResearchTutorial = true;
+
             if (showPrereqPopup)
                 showPrereqPopup = false;
 

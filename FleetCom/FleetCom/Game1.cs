@@ -26,9 +26,6 @@ namespace FleetCom
         GameOver
     }
 
-    /// <summary>
-    /// This is the main type for your game
-    /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
         public Player User;
@@ -38,10 +35,11 @@ namespace FleetCom
         public StarSystem selectedSystem;
         public Dictionary<string, Ship> Ships;
         #region GameComponents
-        MainMenu mainMenu;
-        CharacterSelect characterSelect;
-        GalaxyMap galaxyMap;
-        public ResearchMenu researchMenu;
+        MainMenu MainMenu;
+        CharacterSelect CharacterSelect;
+        GalaxyMap GalaxyMap;
+        public ResearchMenu ResearchMenu;
+        public FleetMenu Fleet;
         #endregion
 
         GraphicsDeviceManager graphics;
@@ -53,26 +51,22 @@ namespace FleetCom
             Content.RootDirectory = "Content";
         }
 
-        /// <summary>
-        /// Allows the game to perform any initialization it needs to before starting to run.
-        /// This is where it can query for any required services and load any non-graphic
-        /// related content.  Calling base.Initialize will enumerate through any components
-        /// and initialize them as well.
-        /// </summary>
         protected override void Initialize()
         {
             #region Intialize Game Components & State
             GameState = GameStates.MainMenu;
             PreviousGameState = GameState;
-            mainMenu = new MainMenu(this);
-            characterSelect = new CharacterSelect(this);
-            galaxyMap = new GalaxyMap(this);
-            researchMenu = new ResearchMenu(this);
+            MainMenu = new MainMenu(this);
+            CharacterSelect = new CharacterSelect(this);
+            GalaxyMap = new GalaxyMap(this);
+            ResearchMenu = new ResearchMenu(this);
+            Fleet = new FleetMenu(this);
 
-            Components.Add(mainMenu);
-            Components.Add(characterSelect);
-            Components.Add(galaxyMap);
-            Components.Add(researchMenu);
+            Components.Add(MainMenu);
+            Components.Add(CharacterSelect);
+            Components.Add(GalaxyMap);
+            Components.Add(ResearchMenu);
+            Components.Add(Fleet);
             #endregion
             #region Set Graphics Stuff
             graphics.PreferredBackBufferWidth = 1920;
@@ -87,10 +81,6 @@ namespace FleetCom
             Ships = Utils.InitializeShipsList(this);
         }
 
-        /// <summary>
-        /// LoadContent will be called once per game and is the place to load
-        /// all of your content.
-        /// </summary>
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
@@ -98,81 +88,103 @@ namespace FleetCom
             // TODO: use this.Content to load your game content here
         }
 
-        /// <summary>
-        /// UnloadContent will be called once per game and is the place to unload
-        /// all content.
-        /// </summary>
         protected override void UnloadContent()
         {
             if (User != null)
                 User.SaveCharacter(this);
         }
 
-        /// <summary>
-        /// Allows the game to run logic such as updating the world,
-        /// checking for collisions, gathering input, and playing audio.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
             if (Keyboard.GetState().IsKeyDown(Keys.LeftAlt) && Keyboard.GetState().IsKeyDown(Keys.F4))
                 this.Exit();
 
+            if (Keyboard.GetState().IsKeyDown(Keys.LeftShift) && Keyboard.GetState().IsKeyDown(Keys.F5))
+                this.Exit();
+
             switch (GameState)
             {
                 case GameStates.MainMenu:
-                    mainMenu.Enabled = true;
-                    mainMenu.Visible = true;
-                    characterSelect.Visible = false;
-                    characterSelect.Enabled = false;
-                    galaxyMap.Enabled = false;
-                    galaxyMap.Visible = false;
-                    researchMenu.Enabled = false;
-                    researchMenu.Visible = false;
+                    MainMenu.Enabled = false;
+                    MainMenu.Visible = false;
+                    CharacterSelect.Visible = false;
+                    CharacterSelect.Enabled = false;
+                    GalaxyMap.Enabled = false;
+                    GalaxyMap.Visible = false;
+                    ResearchMenu.Enabled = false;
+                    ResearchMenu.Visible = false;
+                    Fleet.Enabled = true;
+                    Fleet.Visible = true;
+
+                    //MainMenu.Enabled = true;
+                    //MainMenu.Visible = true;
+                    //CharacterSelect.Visible = false;
+                    //CharacterSelect.Enabled = false;
+                    //GalaxyMap.Enabled = false;
+                    //GalaxyMap.Visible = false;
+                    //ResearchMenu.Enabled = false;
+                    //ResearchMenu.Visible = false;
+                    //Fleet.Enabled = false;
+                    //Fleet.Visible = false;
                     break;
 
                 case GameStates.CharacterSelect:
-                    mainMenu.Enabled = false;
-                    mainMenu.Visible = false;
-                    characterSelect.Visible = true;
-                    characterSelect.Enabled = true;
-                    galaxyMap.Enabled = false;
-                    galaxyMap.Visible = false;
-                    researchMenu.Enabled = false;
-                    researchMenu.Visible = false;
+                    MainMenu.Enabled = false;
+                    MainMenu.Visible = false;
+                    CharacterSelect.Visible = true;
+                    CharacterSelect.Enabled = true;
+                    GalaxyMap.Enabled = false;
+                    GalaxyMap.Visible = false;
+                    ResearchMenu.Enabled = false;
+                    ResearchMenu.Visible = false;
+                    Fleet.Enabled = false;
+                    Fleet.Visible = false;
                     break;
 
                 case GameStates.GalaxyMap:
-                    mainMenu.Enabled = false;
-                    mainMenu.Visible = false;
-                    characterSelect.Visible = false;
-                    characterSelect.Enabled = false;
-                    galaxyMap.Enabled = true;
-                    galaxyMap.Visible = true;
-                    researchMenu.Enabled = false;
-                    researchMenu.Visible = false;
+                    MainMenu.Enabled = false;
+                    MainMenu.Visible = false;
+                    CharacterSelect.Visible = false;
+                    CharacterSelect.Enabled = false;
+                    GalaxyMap.Enabled = true;
+                    GalaxyMap.Visible = true;
+                    ResearchMenu.Enabled = false;
+                    ResearchMenu.Visible = false;
+                    Fleet.Enabled = false;
+                    Fleet.Visible = false;
                     break;
 
                 case GameStates.Research:
-                    mainMenu.Enabled = false;
-                    mainMenu.Visible = false;
-                    characterSelect.Visible = false;
-                    characterSelect.Enabled = false;
-                    galaxyMap.Enabled = false;
-                    galaxyMap.Visible = false;
-                    researchMenu.Enabled = true;
-                    researchMenu.Visible = true;
+                    MainMenu.Enabled = false;
+                    MainMenu.Visible = false;
+                    CharacterSelect.Visible = false;
+                    CharacterSelect.Enabled = false;
+                    GalaxyMap.Enabled = false;
+                    GalaxyMap.Visible = false;
+                    ResearchMenu.Enabled = true;
+                    ResearchMenu.Visible = true;
+                    Fleet.Enabled = false;
+                    Fleet.Visible = false;
+                    break;
+
+                case GameStates.Fleet:
+                    MainMenu.Enabled = false;
+                    MainMenu.Visible = false;
+                    CharacterSelect.Visible = false;
+                    CharacterSelect.Enabled = false;
+                    GalaxyMap.Enabled = false;
+                    GalaxyMap.Visible = false;
+                    ResearchMenu.Enabled = false;
+                    ResearchMenu.Visible = false;
+                    Fleet.Enabled = true;
+                    Fleet.Visible = true;
                     break;
             }
 
             base.Update(gameTime);
         }
 
-        /// <summary>
-        /// This is called when the game should draw itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(new Color(34, 31, 32));

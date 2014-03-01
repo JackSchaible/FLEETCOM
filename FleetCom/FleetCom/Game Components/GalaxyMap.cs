@@ -22,10 +22,10 @@ namespace FleetCom
         SpriteBatch spriteBatch;
 
         Sprite background;
-        Sprite Tutorial1, Tutorial2, Tutorial3, Title;
+        Sprite Tutorial1, Tutorial2, Tutorial3, Tutorial4, Title;
         SpriteFont MH30;
 
-        Button OKButton, ResearchButton;
+        Button OKButton, ResearchButton, FleetButton;
 
         int wait;
         bool firstUpdate;
@@ -33,13 +33,8 @@ namespace FleetCom
         public GalaxyMap(Game game)
             : base(game)
         {
-            // TODO: Construct any child components here
         }
 
-        /// <summary>
-        /// Allows the game component to perform any initialization it needs to before starting
-        /// to run.  This is where it can query for any required services and load content.
-        /// </summary>
         public override void Initialize()
         {
             wait = 10;
@@ -58,6 +53,9 @@ namespace FleetCom
             Tutorial3 = new Sprite(
                 ((Game1)Game).Content.Load<Texture2D>("Graphics/IncursionMap/Tutorial3"),
                 new Vector2(500, 300), 1.0f, 0.0f, 0.9f);
+            Tutorial4 = new Sprite(
+                ((Game1)Game).Content.Load<Texture2D>("Graphics/IncursionMap/Tutorial4"),
+                new Vector2(500, 300), 1.0f, 0.0f, 0.9f);
             Title = new Sprite(
                 ((Game1)Game).Content.Load<Texture2D>("Graphics/IncursionMap/Title"),
                 new Vector2(25, 30), 1.0f, 0.0f, 1.0f);
@@ -72,20 +70,21 @@ namespace FleetCom
                 ((Game1)Game).Content.Load<Texture2D>("Graphics/UI/ResearchButton-Hover"),
                 ((Game1)Game).Content.Load<Texture2D>("Graphics/UI/ResearchButton-Pressed"),
                 new Vector2(1800,10));
+            FleetButton = new Button(
+                ((Game1)Game).Content.Load<Texture2D>("Graphics/UI/FleetIcon"),
+                ((Game1)Game).Content.Load<Texture2D>("Graphics/UI/FleetIcon-Hover"),
+                ((Game1)Game).Content.Load<Texture2D>("Graphics/UI/FleetIcon-Pressed"),
+                new Vector2(1650, 10));
 
             OKButton.ButtonPressed += OKButton_ButtonPressed;
             ResearchButton.ButtonPressed += ResearchButton_ButtonPressed;
-
+            FleetButton.ButtonPressed += FleetButton_ButtonPressed;
 
             MH30 = ((Game1)Game).Content.Load<SpriteFont>("Graphics/Fonts/MyriadHebrew-30");
 
             base.Initialize();
         }
 
-        /// <summary>
-        /// Allows the game component to update itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
             if (firstUpdate)
@@ -115,11 +114,17 @@ namespace FleetCom
                         OKButton.Update(state);
                     break;
 
+                case TutortialSteps.GalaxyMap4:
+                    if (wait == 0)
+                        OKButton.Update(state);
+                    break;
+
                 default:
                     foreach (StarCluster item in ((Game1)Game).User.Map.StarClusters)
                         item.Update(state);
 
                     ResearchButton.Update(state);
+                    FleetButton.Update(state);
                     break;
             }
 
@@ -136,6 +141,7 @@ namespace FleetCom
             background.Draw(spriteBatch);
             Title.Draw(spriteBatch);
             ResearchButton.Draw(spriteBatch);
+            FleetButton.Draw(spriteBatch);
 
             foreach (StarCluster item in ((Game1)Game).User.Map.StarClusters)
                 item.Draw(spriteBatch);
@@ -158,6 +164,12 @@ namespace FleetCom
 
                 case TutortialSteps.GalaxyMap3:
                     Tutorial3.Draw(spriteBatch);
+                    spriteBatch.DrawString(MH30, to, new Vector2(530,475), Color.White, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 1.0f);
+                    OKButton.Draw(spriteBatch);
+                    break;
+
+                case TutortialSteps.GalaxyMap4:
+                    Tutorial4.Draw(spriteBatch);
                     spriteBatch.DrawString(MH30, to, new Vector2(530,475), Color.White, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 1.0f);
                     OKButton.Draw(spriteBatch);
                     break;
@@ -188,6 +200,11 @@ namespace FleetCom
         {
             ((Game1)Game).PreviousGameState = GameStates.GalaxyMap;
             ((Game1)Game).GameState = GameStates.Research;
+        }
+
+        void FleetButton_ButtonPressed()
+        {
+            ((Game1)Game).GameState = GameStates.Fleet;
         }
     }
 }
