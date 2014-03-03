@@ -417,6 +417,7 @@ namespace FleetCom
 
         void ResearchCompleted()
         {
+            ResearchTree[CurrentlyResearching].Researched = true;
             ResearchTree[CurrentlyResearching].ResearchState = ResearchStates.Researched;
             CurrentlyResearching = "";
             ResearchCounter = 0;
@@ -466,6 +467,7 @@ namespace FleetCom
 
         void FleetButton_ButtonPressed()
         {
+            ((Game1)Game).FleetMenu.Refresh();
             ((Game1)Game).GameState = GameStates.Fleet;
         }
     }

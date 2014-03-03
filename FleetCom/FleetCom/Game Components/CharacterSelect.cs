@@ -16,9 +16,7 @@ using System.Xml.Linq;
 
 namespace FleetCom
 {
-    /// <summary>
-    /// This is a game component that implements IUpdateable.
-    /// </summary>
+
     public class CharacterSelect : Microsoft.Xna.Framework.DrawableGameComponent
     {
         Sprite Title, Char1Desc, Char2Desc, Char3Desc, Char4Desc, OverwritePopup;
@@ -36,10 +34,6 @@ namespace FleetCom
 
         }
 
-        /// <summary>
-        /// Allows the game component to perform any initialization it needs to before starting
-        /// to run.  This is where it can query for any required services and load content.
-        /// </summary>
         public override void Initialize()
         {
             spriteBatch = new SpriteBatch(((Game1)Game).GraphicsDevice);
@@ -114,10 +108,6 @@ namespace FleetCom
             base.Initialize();
         }
 
-        /// <summary>
-        /// Allows the game component to update itself.
-        /// </summary>
-        /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
             MouseState state = Mouse.GetState();

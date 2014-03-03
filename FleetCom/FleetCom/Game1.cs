@@ -33,13 +33,12 @@ namespace FleetCom
         public GameStates PreviousGameState;
         public StarCluster selectedCluster;
         public StarSystem selectedSystem;
-        public Dictionary<string, Ship> Ships;
         #region GameComponents
         MainMenu MainMenu;
         CharacterSelect CharacterSelect;
         GalaxyMap GalaxyMap;
         public ResearchMenu ResearchMenu;
-        public FleetMenu Fleet;
+        public FleetMenu FleetMenu;
         #endregion
 
         GraphicsDeviceManager graphics;
@@ -60,13 +59,13 @@ namespace FleetCom
             CharacterSelect = new CharacterSelect(this);
             GalaxyMap = new GalaxyMap(this);
             ResearchMenu = new ResearchMenu(this);
-            Fleet = new FleetMenu(this);
+            FleetMenu = new FleetMenu(this);
 
             Components.Add(MainMenu);
             Components.Add(CharacterSelect);
             Components.Add(GalaxyMap);
             Components.Add(ResearchMenu);
-            Components.Add(Fleet);
+            Components.Add(FleetMenu);
             #endregion
             #region Set Graphics Stuff
             graphics.PreferredBackBufferWidth = 1920;
@@ -76,9 +75,18 @@ namespace FleetCom
             graphics.ApplyChanges();
             Window.Title = "FLEETCOM 1.0";
             #endregion
-            
+
             base.Initialize();
-            Ships = Utils.InitializeShipsList(this);
+            //For testing -- remove this
+            User = new Player(Characters.Aggressive, true,
+                Content.Load<string[]>("Data/StarClusterNames").ToList<string>(),
+                Content.Load<Texture2D>("Graphics/IncursionMap/OwnedTexture"),
+                Content.Load<Texture2D>("Graphics/IncursionMap/UnderAttackSprite"),
+                Content.Load<Texture2D>("Graphics/IncursionMap/NormalTexture"),
+                Content.Load<Texture2D>("Graphics/IncursionMap/SystemStatus"),
+                Content.Load<SpriteFont>("Graphics/Fonts/MyriadHebrew-45"),
+                Content.Load<SpriteFont>("Graphics/Fonts/MyriadHebrew-75"),
+                this);
         }
 
         protected override void LoadContent()
@@ -114,8 +122,8 @@ namespace FleetCom
                     GalaxyMap.Visible = false;
                     ResearchMenu.Enabled = false;
                     ResearchMenu.Visible = false;
-                    Fleet.Enabled = true;
-                    Fleet.Visible = true;
+                    FleetMenu.Enabled = true;
+                    FleetMenu.Visible = true;
 
                     //MainMenu.Enabled = true;
                     //MainMenu.Visible = true;
@@ -138,8 +146,8 @@ namespace FleetCom
                     GalaxyMap.Visible = false;
                     ResearchMenu.Enabled = false;
                     ResearchMenu.Visible = false;
-                    Fleet.Enabled = false;
-                    Fleet.Visible = false;
+                    FleetMenu.Enabled = false;
+                    FleetMenu.Visible = false;
                     break;
 
                 case GameStates.GalaxyMap:
@@ -151,8 +159,8 @@ namespace FleetCom
                     GalaxyMap.Visible = true;
                     ResearchMenu.Enabled = false;
                     ResearchMenu.Visible = false;
-                    Fleet.Enabled = false;
-                    Fleet.Visible = false;
+                    FleetMenu.Enabled = false;
+                    FleetMenu.Visible = false;
                     break;
 
                 case GameStates.Research:
@@ -164,8 +172,8 @@ namespace FleetCom
                     GalaxyMap.Visible = false;
                     ResearchMenu.Enabled = true;
                     ResearchMenu.Visible = true;
-                    Fleet.Enabled = false;
-                    Fleet.Visible = false;
+                    FleetMenu.Enabled = false;
+                    FleetMenu.Visible = false;
                     break;
 
                 case GameStates.Fleet:
@@ -177,8 +185,8 @@ namespace FleetCom
                     GalaxyMap.Visible = false;
                     ResearchMenu.Enabled = false;
                     ResearchMenu.Visible = false;
-                    Fleet.Enabled = true;
-                    Fleet.Visible = true;
+                    FleetMenu.Enabled = true;
+                    FleetMenu.Visible = true;
                     break;
             }
 

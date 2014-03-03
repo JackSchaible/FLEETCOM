@@ -11,6 +11,7 @@ namespace FleetCom.Graphics
     {
         Texture2D Texture { get; }
         Vector2 Position { get; set; }
+
         void Update();
         void Draw(SpriteBatch spriteBatch);
     }

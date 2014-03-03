@@ -204,6 +204,7 @@ namespace FleetCom
 
         void FleetButton_ButtonPressed()
         {
+            ((Game1)Game).FleetMenu.Refresh();
             ((Game1)Game).GameState = GameStates.Fleet;
         }
     }

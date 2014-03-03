@@ -72,6 +72,9 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\Ships\IShip.cs" />
+    <Compile Include="Classes\Ships\Tauri\F-302.cs" />
+    <Compile Include="Classes\Ships\Weapon.cs" />
     <Compile Include="Game Components\CharacterSelect.cs" />
     <Compile Include="Galaxy.cs" />
     <Compile Include="Game Components\FleetMenu.cs" />
@@ -82,6 +85,7 @@
     <Compile Include="Graphics\Sprite.cs" />
     <Compile Include="Graphics\UI\Button.cs" />
     <Compile Include="Graphics\UI\ClusterStatus.cs" />
+    <Compile Include="Graphics\UI\ShipSlot.cs" />
     <Compile Include="MainMenu.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -89,10 +93,8 @@
     <Compile Include="Game1.cs" />
     <Compile Include="Classes\ResearchItem.cs" />
     <Compile Include="Game Components\ResearchMenu.cs" />
-    <Compile Include="Classes\Ship.cs" />
     <Compile Include="Classes\StarCluster.cs" />
     <Compile Include="Classes\StarSystem.cs" />
-    <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

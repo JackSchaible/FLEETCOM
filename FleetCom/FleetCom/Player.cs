@@ -31,6 +31,9 @@ namespace FleetCom
     {
         public Characters Character { get; set; }
         public Galaxy Map { get; set; }
+        public string[] Fleet { get; set; }
+        public int XP { get; set; }
+        public int GenericGalacticCredits { get; set; }
 
         public static Dictionary<string, string> Ranks = new Dictionary<string, string>()
         {
@@ -40,12 +43,10 @@ namespace FleetCom
             { "LTCDR", "Lieutenant Commander" },
             { "CDR",  "Commander" },
             { "CPT",  "Captain" },
-            { "RDML",  "Rear Admiral (Lower Half)" },
             { "RADM",  "Rear Admiral" },
-            { "VAMD",  "Vice Admiral" },
+            { "VADM",  "Vice Admiral" },
             { "ADM",  "Admiral" },
-            { "FADM",  "Fleet Admiral" },
-            { "AN", "Admiral of the Navy" }
+            { "FADM", "Fleet Admiral"}
         };
 
         public string Rank { get; set; }
@@ -71,7 +72,7 @@ namespace FleetCom
             {
                 LoadCharacter(character.ToString(), starClusterNormalTexture,
                     starClusterUnderAttackTexture, starClusterUnownedTexture,
-                    clusterStatusTexture, MH45, MH75);
+                    clusterStatusTexture, MH45, MH75, game);
             }
             else
             {
@@ -82,6 +83,10 @@ namespace FleetCom
                     clusterStatusTexture, MH45, MH75);
                 Rank = "ENS";
                 ResearchTutorial = false;
+                Fleet = new string[10];
+                Fleet[0] = "F-302";
+                XP = 0;
+                GenericGalacticCredits = 2000;
 
                 SaveCharacter(game);
             }
@@ -89,7 +94,7 @@ namespace FleetCom
 
         public void LoadCharacter(string name, Texture2D starClusterNormalTexture, Texture2D starClusterUnderAttackTexture, 
             Texture2D starClusterUnownedTexture, Texture2D clusterStatusTexture,
-            SpriteFont MH45, SpriteFont MH75)
+            SpriteFont MH45, SpriteFont MH75, Game1 game)
         {
             string filename = "Players/" + name + ".xml";
 
@@ -140,6 +145,8 @@ namespace FleetCom
 
             //Load rank
             Rank = doc.Element("Player").Attribute("Rank").Value;
+            XP = int.Parse(doc.Element("Player").Attribute("XP").Value);
+            GenericGalacticCredits = int.Parse(doc.Element("Player").Attribute("GGC").Value);
 
             //Load map
             foreach (XElement item in doc.Elements("StarCluster"))
@@ -171,10 +178,30 @@ namespace FleetCom
                     //add systems to the cluster
                 }
 
-                //Load research
-
                 Map.StarClusters.Add(cluster);
             }
+
+            //Load research
+            foreach (XElement item in doc.Element("Research").Elements().ToList<XElement>())
+            {
+                //Determine if there's a currently researching item
+                if (item.Attribute("TimeLeft") != null)
+                {
+                    game.ResearchMenu.CurrentlyResearching = item.Attributes("Key").FirstOrDefault<XAttribute>().Value;
+                    game.ResearchMenu.ResearchCounter = int.Parse(item.Attributes("TimeLeft").FirstOrDefault<XAttribute>().Value);
+                }
+                else
+                {
+                    game.ResearchMenu.ResearchTree[item.Attribute("Key").Value].Researched = true;
+                    game.ResearchMenu.ResearchTree[item.Attribute("Key").Value].ResearchState = ResearchStates.Researched;
+                }
+            }
+
+            //Load fleet
+            Fleet = new string[10];
+            List<XElement> shipElements = doc.Element("Fleet").Elements().ToList<XElement>();
+            for (int i = 0; i < shipElements.Count(); i++)
+                Fleet[i] = shipElements[i].Value;
         }
 
         public void SaveCharacter(Game1 game)
@@ -186,7 +213,9 @@ namespace FleetCom
             XElement root = new XElement("Player",
                 new XAttribute("Character", Character),
                 new XAttribute("TutorialStep", TutorialStep),
-                new XAttribute("Rank", Rank)
+                new XAttribute("Rank", Rank),
+                new XAttribute("XP", XP),
+                new XAttribute("GGC", GenericGalacticCredits)
                 );
 
             if (ResearchTutorial)
@@ -232,11 +261,31 @@ namespace FleetCom
 
             root.Add(researchElement);
 
+            XElement fleetElement = new XElement("Fleet");
+            foreach (string item in Fleet)
+                if (item != null)
+                    fleetElement.Add(new XElement(item));
+            root.Add(fleetElement);
+
             xd.Add(root);
 
             Stream stream = File.Create(FileName);
             xd.Save(stream);
             stream.Close();
+        }
+
+        public bool HasAchievedRank(string RankKey)
+        {
+            bool result = true;
+
+            string[] dictionary = Ranks.Select(x => x.Key).ToArray<string>();
+            int pos = Array.IndexOf(dictionary, RankKey);
+            int current = Array.IndexOf(dictionary, Rank);
+
+            if (pos > current)
+                result = false;
+
+            return result;
         }
     }
 }

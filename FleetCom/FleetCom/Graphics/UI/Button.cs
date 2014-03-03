@@ -15,6 +15,7 @@ namespace FleetCom.Graphics.UI
         Pressed
     }
     public delegate void ButtonPress();
+
     public class Button
     {
         public Texture2D Texture { get; set; }
@@ -82,6 +83,11 @@ namespace FleetCom.Graphics.UI
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(Texture, Position, null, Color.White, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 1.0f);
+        }
+
+        protected virtual void RaiseButtonPressEvent()
+        {
+            ButtonPressed();
         }
     }
 }
