@@ -30,12 +30,18 @@ namespace FleetCom
 
         Sprite Title, Tutorial, NoShipPopup;
         Texture2D ShipInfo;
-        Button BackButton, ResearchButton, OKButton, StoreButton, SellButton;
+        Button BackButton, ResearchButton, OKButton, StoreButton, SellButton, MyFleetButton, NextPageButton, PreviousPageButton, Buy;
         ShipSlot ens, ltjg, lt, ltcdr, cdr, cpt, radm, vadm, adm, fadm;
-        int slotSelected;
+        StoreItem one, two, three, four, five, six, seven, eight, nine, ten;
+        SpriteFont MH15, MH45;
 
+        int slotSelected;
+        int page = 1;
         bool firstUpdate = true;
         bool noShipPopup = false;
+        bool isfPopup = false;
+        int switchCounter = 30;
+        int pageSwitchCoutner = 15;
 
         MenuStates MenuState;
 
@@ -51,6 +57,7 @@ namespace FleetCom
 
             spriteBatch = new SpriteBatch(((Game1)Game).GraphicsDevice);
 
+            #region Sprites
             Title = new Sprite(
                 ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/Title"),
                 new Vector2(0, 0), 1.0f, 0.0f, 1.0f);
@@ -60,99 +67,57 @@ namespace FleetCom
             NoShipPopup = new Sprite(
                 ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/NoShip"),
                 new Vector2(480, 450), 1.0f, 0.0f, 0.9f);
+            #endregion
+
+            MH15 = ((Game1)Game).Content.Load<SpriteFont>("Graphics/Fonts/MyriadHebrew-15");
+            MH45 = ((Game1)Game).Content.Load<SpriteFont>("Graphics/Fonts/MyriadHebrew-45");
 
             #region ranks
-            ens = new ShipSlot(
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/ShipSlot"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/ShipSlot-Hover"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/ShipSlot-Pressed"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/BlockedShipSlot"),
+            Texture2D SS, SSHover, SSPressed, SSBlocked, Rank;
+            SS = ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/ShipSlot");
+            SSHover = ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/ShipSlot-Hover");
+            SSPressed = ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/ShipSlot-Pressed");
+            SSBlocked = ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/BlockedShipSlot");
+            Rank = ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/RankPopup");
+
+            ens = new ShipSlot(SS, SSHover, SSPressed, SSBlocked,
                 ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/Ensign"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/RankPopup"),
-                new Vector2(75, 475), "ENS", 0, ((Game1)Game), true,
-                ((Game1)Game).Content.Load<SpriteFont>("Graphics/Fonts/MyriadHebrew-15"));
-            ltjg = new ShipSlot(
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/ShipSlot"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/ShipSlot-Hover"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/ShipSlot-Pressed"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/BlockedShipSlot"),
+                Rank, new Vector2(75, 475), "ENS", 0, ((Game1)Game), true, MH15);
+            ltjg = new ShipSlot(SS, SSHover, SSPressed, SSBlocked,
                 ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/LieutenantJr"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/RankPopup"),
-                new Vector2(300, 475), "LTJG", 1000, ((Game1)Game), false,
-                ((Game1)Game).Content.Load<SpriteFont>("Graphics/Fonts/MyriadHebrew-15"));
-            lt = new ShipSlot(
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/ShipSlot"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/ShipSlot-Hover"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/ShipSlot-Pressed"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/BlockedShipSlot"),
+                Rank, new Vector2(300, 475), "LTJG", 1000, ((Game1)Game), false, MH15);
+            lt = new ShipSlot(SS, SSHover, SSPressed, SSBlocked,
                 ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/Lieutenant"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/RankPopup"),
-                new Vector2(525, 475), "LT", 3000, ((Game1)Game), false,
-                ((Game1)Game).Content.Load<SpriteFont>("Graphics/Fonts/MyriadHebrew-15"));
-            ltcdr = new ShipSlot(
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/ShipSlot"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/ShipSlot-Hover"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/ShipSlot-Pressed"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/BlockedShipSlot"),
+                Rank, new Vector2(525, 475), "LT", 3000, ((Game1)Game), false, MH15);
+            ltcdr = new ShipSlot(SS, SSHover, SSPressed, SSBlocked,
                 ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/LieutenantCommander"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/RankPopup"),
-                new Vector2(750, 475), "LTCDR", 6000, ((Game1)Game), false,
-                ((Game1)Game).Content.Load<SpriteFont>("Graphics/Fonts/MyriadHebrew-15"));
-            cdr = new ShipSlot(
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/ShipSlot"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/ShipSlot-Hover"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/ShipSlot-Pressed"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/BlockedShipSlot"),
+                Rank, new Vector2(750, 475), "LTCDR", 6000, ((Game1)Game), false, MH15);
+            cdr = new ShipSlot(SS, SSHover, SSPressed, SSBlocked,
                 ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/Commander"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/RankPopup"),
-                new Vector2(975, 475), "CDR", 10000, ((Game1)Game), false,
-                ((Game1)Game).Content.Load<SpriteFont>("Graphics/Fonts/MyriadHebrew-15"));
-            cpt = new ShipSlot(
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/ShipSlot"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/ShipSlot-Hover"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/ShipSlot-Pressed"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/BlockedShipSlot"),
+                Rank, new Vector2(975, 475), "CDR", 10000, ((Game1)Game), false, MH15);
+            cpt = new ShipSlot(SS, SSHover, SSPressed, SSBlocked,
                 ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/Captain"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/RankPopup"),
-                new Vector2(75, 700), "CPT", 15000, ((Game1)Game), false,
-                ((Game1)Game).Content.Load<SpriteFont>("Graphics/Fonts/MyriadHebrew-15"));
-            radm = new ShipSlot(
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/ShipSlot"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/ShipSlot-Hover"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/ShipSlot-Pressed"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/BlockedShipSlot"),
+                Rank, new Vector2(75, 700), "CPT", 15000, ((Game1)Game), false, MH15);
+            radm = new ShipSlot(SS, SSHover, SSPressed, SSBlocked,
                 ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/RearAdmiral"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/RankPopup"),
-                new Vector2(300, 700), "RADM", 21000, ((Game1)Game), false,
-                ((Game1)Game).Content.Load<SpriteFont>("Graphics/Fonts/MyriadHebrew-15"));
-            vadm = new ShipSlot(
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/ShipSlot"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/ShipSlot-Hover"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/ShipSlot-Pressed"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/BlockedShipSlot"),
+                Rank, new Vector2(300, 700), "RADM", 21000, ((Game1)Game), false, MH15);
+            vadm = new ShipSlot(SS, SSHover, SSPressed, SSBlocked,
                 ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/ViceAdmiral"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/RankPopup"),
-                new Vector2(525, 700), "VADM", 28000, ((Game1)Game), false,
-                ((Game1)Game).Content.Load<SpriteFont>("Graphics/Fonts/MyriadHebrew-15"));
-            adm = new ShipSlot(
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/ShipSlot"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/ShipSlot-Hover"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/ShipSlot-Pressed"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/BlockedShipSlot"),
+                Rank, new Vector2(525, 700), "VADM", 28000, ((Game1)Game), false, MH15);
+            adm = new ShipSlot(SS, SSHover, SSPressed, SSBlocked,
                 ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/Admiral"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/RankPopup"),
-                new Vector2(750, 700), "ADM", 36000, ((Game1)Game), false,
-                ((Game1)Game).Content.Load<SpriteFont>("Graphics/Fonts/MyriadHebrew-15"));
-            fadm = new ShipSlot(
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/ShipSlot"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/ShipSlot-Hover"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/ShipSlot-Pressed"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/BlockedShipSlot"),
+                Rank, new Vector2(750, 700), "ADM", 36000, ((Game1)Game), false, MH15);
+            fadm = new ShipSlot(SS, SSHover, SSPressed, SSBlocked,
                 ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/FleetAdmiral"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/RankPopup"),
-                new Vector2(975, 700), "FADM", 45000, ((Game1)Game), false,
-                ((Game1)Game).Content.Load<SpriteFont>("Graphics/Fonts/MyriadHebrew-15"));
+                Rank, new Vector2(975, 700), "FADM", 45000, ((Game1)Game), false, MH15);
             ens.ShipSlotSelected += ShipSlotSelected;
+            #endregion
+
+            #region Store Slots
+            //TODO: Class should be ready to use. Instantiate, draw, and update. Then test. Then replicate for all 42 ships.
+            one = new StoreItem(SS, SSHover, SSPressed, SSBlocked,
+                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/Ensign"),
+                Rank, new Vector2(75, 475), ((Game1)Game), MH15);
             #endregion
 
             InitializeShips();
@@ -183,11 +148,30 @@ namespace FleetCom
                 ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/SellButton-Hover"),
                 ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/SellButton-Pressed"),
                 new Vector2(1400, 950));
+            MyFleetButton = new Button(
+                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/MyFleetButton"),
+                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/MyFleetButton-Hover"),
+                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/MyFleetButton-Pressed"),
+                new Vector2(455, 360));
+            NextPageButton = new Button(
+                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/NextButton"),
+                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/NextButton-Hover"),
+                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/NextButton-Pressed"),
+                new Vector2(680, 960));
+            PreviousPageButton = new Button(
+                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/PreviousButton"),
+                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/PreviousButton-Hover"),
+                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/PreviousButton-Pressed"),
+                new Vector2(430, 960));
+
             BackButton.ButtonPressed += BackButton_ButtonPressed;
             ResearchButton.ButtonPressed += ResearchButton_ButtonPressed;
             OKButton.ButtonPressed += OKButton_ButtonPressed;
             StoreButton.ButtonPressed += StoreButton_ButtonPressed;
             SellButton.ButtonPressed += RemoveButton_ButtonPressed;
+            MyFleetButton.ButtonPressed += MyFleetButton_ButtonPressed;
+            NextPageButton.ButtonPressed += NextPage_ButtonPressed;
+            PreviousPageButton.ButtonPressed += PreviousPage_ButtonPressed;
             #endregion
 
             base.Initialize();
@@ -238,6 +222,12 @@ namespace FleetCom
 
         public override void Update(GameTime gameTime)
         {
+            if (switchCounter > 0)
+                switchCounter--;
+
+            if (pageSwitchCoutner > 0)
+                pageSwitchCoutner--;
+
             if (firstUpdate)
             {
                 firstUpdate = false;
@@ -262,6 +252,7 @@ namespace FleetCom
                     switch (MenuState)
                     {
                         case MenuStates.Shop:
+                            UpdateStore(state);
                             break;
 
                         case MenuStates.MyShips:
@@ -476,6 +467,13 @@ namespace FleetCom
                 SellButton.Update(state);
         }
 
+        void UpdateStore(MouseState state)
+        {
+            MyFleetButton.Update(state);
+            PreviousPageButton.Update(state);
+            NextPageButton.Update(state);
+        }
+
         public override void Draw(GameTime gameTime)
         {
             spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend);
@@ -499,7 +497,7 @@ namespace FleetCom
             switch (MenuState)
             {
                 case MenuStates.Shop:
-                    
+                    DrawStore(spriteBatch);
                     break;
 
                 case MenuStates.MyShips:
@@ -533,6 +531,83 @@ namespace FleetCom
                 spriteBatch.Draw(ShipInfo, new Vector2(1250, 225), null, Color.White, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0.1f);
                 SellButton.Draw(spriteBatch);
             }
+        }
+
+        void DrawStore(SpriteBatch spriteBatch)
+        {
+            spriteBatch.DrawString(MH45, String.Format("Current Funds: {0} Generic Galactic Credits", 
+                ((Game1)Game).User.GenericGalacticCredits), new Vector2(5, 225), Color.White);
+            spriteBatch.DrawString(MH45, String.Format("{0}/5", page), new Vector2(570, 985), Color.White);
+
+            PreviousPageButton.Draw(spriteBatch);
+            NextPageButton.Draw(spriteBatch);
+            MyFleetButton.Draw(spriteBatch);
+        }
+
+        void InitializeShips()
+        {
+            Ships = new List<IShip>();
+
+            Ships.Add(new F302_Ref(
+                ((Game1)Game).Content.Load<Texture2D>("Graphics/Ships/F302/F-302"),
+                ((Game1)Game).Content.Load<Texture2D>("Graphics/Ships/F302/Icon"),
+                ((Game1)Game).Content.Load<Texture2D>("Graphics/Ships/F302/InfoCard"),
+                new List<ResearchItem> { ((Game1)Game).ResearchMenu.ResearchTree["Space Flight"] },
+                null, null));
+            //result.Add("BC-303", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Hyperdrive"] } ));
+            //result.Add("BC-304", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Intergalactic Hyperdrive"] }));
+            //result.Add("BC-304 Refit", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Alien Diplomacy"], game.ResearchMenu.ResearchTree["Cloaking Technology"] }));
+            //result.Add("Bilskirnir", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Ion Weapons"] }));
+            //result.Add("O'Neill", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Naquadah-Trinium-Carbon Alloys"] }));
+            //result.Add("Death Glider", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Naquadah Power Source"] }));
+            //result.Add("Ha'tak", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Religious Indoctrination"], game.ResearchMenu.ResearchTree["Ring Transporters"] }));
+            //result.Add("Dart", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Organic Hulls"] }));
+            //result.Add("Wraith Cruiser", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Trinium-Organic Hulls"] }));
+            //result.Add("Hive Ship", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Regenerative Hulls"] }));
+            //result.Add("Ori Fighter", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Religious Indoctrination"] }));
+            //result.Add("Ori Warship", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Religious Indoctrination"], game.ResearchMenu.ResearchTree["Control Chairs"] }));
+            //result.Add("Seed Ship", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["FTL Engines"] }));
+            //result.Add("Gateship", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Drone Weapons"] }));
+            //result.Add("Aurora", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Drone Weapons"], game.ResearchMenu.ResearchTree["Zero-Point Energy"], game.ResearchMenu.ResearchTree["Direct Neural Interfaces"] }));
+            //result.Add("TIE Fighter", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Ion Engines"] }));
+            //result.Add("Acclamator", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Turbolasers"] }));
+            //result.Add("Victory", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Ion Engines"], game.ResearchMenu.ResearchTree["Tractor Beams"] }));
+            //result.Add("Imperial", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Heavy Turbolasers"], game.ResearchMenu.ResearchTree["Planetary Production Management"] }));
+            //result.Add("X-Wing", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Proton Weapons"] }));
+            //result.Add("Nebulon-B", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Turbolasers"] }));
+            //result.Add("Liberty", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Tractor Beams"], game.ResearchMenu.ResearchTree["Heavy Turbolasers"] }));
+            //result.Add("Home One", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["SEAL Shielding"] }));
+            //result.Add("Sith Fighter", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Ion Engines"] }));
+            //result.Add("Leviathan", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Turbolasers"], game.ResearchMenu.ResearchTree["Tractor Beams"] }));
+            //result.Add("Aurek", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Proton Weapons"] }));
+            //result.Add("Hammerhead", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Tractor Beams"], game.ResearchMenu.ResearchTree["Proton Weapons"] }));
+            //result.Add("Vulture Droid", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Droid Control Systems"] }));
+            //result.Add("Lucrehulk", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Droid Control Systems"], game.ResearchMenu.ResearchTree["Heavy Turbolasers"] }));
+            //result.Add("Providence", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Proton Weapons"], game.ResearchMenu.ResearchTree["Heavy Turbolasers"] }));
+            //result.Add("Crusader", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Hyperdrive"] }));
+            //result.Add("Keldabe", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Turbolasers"], game.ResearchMenu.ResearchTree["Heavy Ion Weapons"] }));
+            //result.Add("Vengeance", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Mass Drivers"] }));
+            //result.Add("Aggressor", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Linked Weapons Systems"] }));
+            //result.Add("Longsword", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Mass Drivers"] }));
+            //result.Add("Charon", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Magnetic Accelerator Cannons"] }));
+            //result.Add("Halcyon", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Nuclear Missiles"] }));
+            //result.Add("Phoenix", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Nuclear Missiles"], game.ResearchMenu.ResearchTree["Nuclear Mines"] }));
+            //result.Add("Seraph", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Religious Indoctrination"], game.ResearchMenu.ResearchTree["Plasma Weapons"] }));
+            //result.Add("Heavy Corvette", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Religious Indoctrination"], game.ResearchMenu.ResearchTree["Plasma Weapons"] }));
+            //result.Add("CCS", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Energy Projectors"] }));
+            //result.Add("CAS", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Plasma Torpedoes"] }));
+        }
+
+        bool IsFleetEmpty()
+        {
+            bool result = true;
+
+            foreach (string item in ((Game1)Game).User.Fleet)
+                if (item != null)
+                    if (item != "")
+                        result = false;
+
+            return result;
         }
 
         void ShipSlotSelected(ShipSlot slot)
@@ -581,6 +656,26 @@ namespace FleetCom
             }
         }
 
+        void PreviousPage_ButtonPressed()
+        {
+            if (pageSwitchCoutner == 0)
+            {
+                pageSwitchCoutner = 15;
+                if (page > 1)
+                    page--;
+            }
+        }
+
+        void NextPage_ButtonPressed()
+        {
+            if (pageSwitchCoutner == 0)
+            {
+                pageSwitchCoutner = 15;
+                if (page < 5)
+                    page++;
+            }
+        }
+
         void ResearchButton_ButtonPressed()
         {
             if (!IsFleetEmpty())
@@ -611,7 +706,20 @@ namespace FleetCom
 
         void StoreButton_ButtonPressed()
         {
-            MenuState = MenuStates.Shop;
+            if (switchCounter == 0)
+            {
+                switchCounter = 30;
+                MenuState = MenuStates.Shop;
+            }
+        }
+
+        void MyFleetButton_ButtonPressed()
+        {
+            if (switchCounter == 0)
+            {
+                switchCounter = 30;
+                MenuState = MenuStates.MyShips;
+            }
         }
 
         void RemoveButton_ButtonPressed()
@@ -708,72 +816,6 @@ namespace FleetCom
                     }
                     break;
             }
-        }
-
-        void InitializeShips()
-        {
-            Ships = new List<IShip>();
-
-            Ships.Add(new F302_Ref(
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/Ships/F302/F-302"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/Ships/F302/Icon"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/Ships/F302/InfoCard"),
-                new List<ResearchItem> { ((Game1)Game).ResearchMenu.ResearchTree["Space Flight"] },
-                null, null));
-            //result.Add("BC-303", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Hyperdrive"] } ));
-            //result.Add("BC-304", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Intergalactic Hyperdrive"] }));
-            //result.Add("BC-304 Refit", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Alien Diplomacy"], game.ResearchMenu.ResearchTree["Cloaking Technology"] }));
-            //result.Add("Bilskirnir", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Ion Weapons"] }));
-            //result.Add("O'Neill", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Naquadah-Trinium-Carbon Alloys"] }));
-            //result.Add("Death Glider", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Naquadah Power Source"] }));
-            //result.Add("Ha'tak", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Religious Indoctrination"], game.ResearchMenu.ResearchTree["Ring Transporters"] }));
-            //result.Add("Dart", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Organic Hulls"] }));
-            //result.Add("Wraith Cruiser", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Trinium-Organic Hulls"] }));
-            //result.Add("Hive Ship", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Regenerative Hulls"] }));
-            //result.Add("Ori Fighter", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Religious Indoctrination"] }));
-            //result.Add("Ori Warship", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Religious Indoctrination"], game.ResearchMenu.ResearchTree["Control Chairs"] }));
-            //result.Add("Seed Ship", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["FTL Engines"] }));
-            //result.Add("Gateship", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Drone Weapons"] }));
-            //result.Add("Aurora", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Drone Weapons"], game.ResearchMenu.ResearchTree["Zero-Point Energy"], game.ResearchMenu.ResearchTree["Direct Neural Interfaces"] }));
-            //result.Add("TIE Fighter", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Ion Engines"] }));
-            //result.Add("Acclamator", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Turbolasers"] }));
-            //result.Add("Victory", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Ion Engines"], game.ResearchMenu.ResearchTree["Tractor Beams"] }));
-            //result.Add("Imperial", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Heavy Turbolasers"], game.ResearchMenu.ResearchTree["Planetary Production Management"] }));
-            //result.Add("X-Wing", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Proton Weapons"] }));
-            //result.Add("Nebulon-B", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Turbolasers"] }));
-            //result.Add("Liberty", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Tractor Beams"], game.ResearchMenu.ResearchTree["Heavy Turbolasers"] }));
-            //result.Add("Home One", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["SEAL Shielding"] }));
-            //result.Add("Sith Fighter", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Ion Engines"] }));
-            //result.Add("Leviathan", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Turbolasers"], game.ResearchMenu.ResearchTree["Tractor Beams"] }));
-            //result.Add("Aurek", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Proton Weapons"] }));
-            //result.Add("Hammerhead", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Tractor Beams"], game.ResearchMenu.ResearchTree["Proton Weapons"] }));
-            //result.Add("Vulture Droid", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Droid Control Systems"] }));
-            //result.Add("Lucrehulk", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Droid Control Systems"], game.ResearchMenu.ResearchTree["Heavy Turbolasers"] }));
-            //result.Add("Providence", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Proton Weapons"], game.ResearchMenu.ResearchTree["Heavy Turbolasers"] }));
-            //result.Add("Crusader", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Hyperdrive"] }));
-            //result.Add("Keldabe", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Turbolasers"], game.ResearchMenu.ResearchTree["Heavy Ion Weapons"] }));
-            //result.Add("Vengeance", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Mass Drivers"] }));
-            //result.Add("Aggressor", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Linked Weapons Systems"] }));
-            //result.Add("Longsword", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Mass Drivers"] }));
-            //result.Add("Charon", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Magnetic Accelerator Cannons"] }));
-            //result.Add("Halcyon", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Nuclear Missiles"] }));
-            //result.Add("Phoenix", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Nuclear Missiles"], game.ResearchMenu.ResearchTree["Nuclear Mines"] }));
-            //result.Add("Seraph", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Religious Indoctrination"], game.ResearchMenu.ResearchTree["Plasma Weapons"] }));
-            //result.Add("Heavy Corvette", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Religious Indoctrination"], game.ResearchMenu.ResearchTree["Plasma Weapons"] }));
-            //result.Add("CCS", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Energy Projectors"] }));
-            //result.Add("CAS", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Plasma Torpedoes"] }));
-        }
-
-        bool IsFleetEmpty()
-        {
-            bool result = true;
-
-            foreach (string item in ((Game1)Game).User.Fleet)
-                if (item != null)
-                    if (item != "")
-                        result = false;
-
-            return result;
         }
     }
 }
