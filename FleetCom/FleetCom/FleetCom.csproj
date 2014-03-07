@@ -73,8 +73,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Ships\IShip.cs" />
-    <Compile Include="Classes\Ships\Tauri\F-302.cs" />
-    <Compile Include="Classes\Ships\Weapon.cs" />
+    <Compile Include="Classes\Ships\Tauri\BC-303R.cs" />
+    <Compile Include="Classes\Ships\Tauri\F-302R.cs" />
+    <Compile Include="Classes\Ships\Weapons\MissileR.cs" />
+    <Compile Include="Classes\Ships\Weapons\RailgunsR.cs" />
+    <Compile Include="Classes\Ships\Weapons\IWeapon.cs" />
+    <Compile Include="Classes\Ships\Weapons\Weapon.cs" />
+    <Compile Include="Classes\Ships\Weapons\WeaponGroup.cs" />
     <Compile Include="Game Components\CharacterSelect.cs" />
     <Compile Include="Galaxy.cs" />
     <Compile Include="Game Components\FleetMenu.cs" />
@@ -86,6 +91,7 @@
     <Compile Include="Graphics\UI\Button.cs" />
     <Compile Include="Graphics\UI\ClusterStatus.cs" />
     <Compile Include="Graphics\UI\ShipSlot.cs" />
+    <Compile Include="Graphics\UI\StoreItem.cs" />
     <Compile Include="MainMenu.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

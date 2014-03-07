@@ -12,6 +12,7 @@ using FleetCom.Graphics;
 using FleetCom.Graphics.UI;
 using FleetCom.Classes.Ships;
 using FleetCom.Classes.Ships.Tauri;
+using FleetCom.Classes.Ships.Weapons;
 
 
 namespace FleetCom
@@ -24,7 +25,8 @@ namespace FleetCom
 
     public class FleetMenu : Microsoft.Xna.Framework.DrawableGameComponent
     {
-        public List<IShip> Ships;
+        public Dictionary<string, IShip> Ships;
+        public Dictionary<string, IWeapon> Weapons;
 
         SpriteBatch spriteBatch;
 
@@ -110,14 +112,16 @@ namespace FleetCom
             fadm = new ShipSlot(SS, SSHover, SSPressed, SSBlocked,
                 ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/FleetAdmiral"),
                 Rank, new Vector2(975, 700), "FADM", 45000, ((Game1)Game), false, MH15);
-            ens.ShipSlotSelected += ShipSlotSelected;
-            #endregion
 
-            #region Store Slots
-            //TODO: Class should be ready to use. Instantiate, draw, and update. Then test. Then replicate for all 42 ships.
-            one = new StoreItem(SS, SSHover, SSPressed, SSBlocked,
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/Ensign"),
-                Rank, new Vector2(75, 475), ((Game1)Game), MH15);
+            ens.ShipSlotSelected += ShipSlotSelected;
+            ltjg.ShipSlotSelected += ShipSlotSelected;
+            lt.ShipSlotSelected += ShipSlotSelected;
+            ltcdr.ShipSlotSelected += ShipSlotSelected;
+            cpt.ShipSlotSelected += ShipSlotSelected;
+            radm.ShipSlotSelected += ShipSlotSelected;
+            vadm.ShipSlotSelected += ShipSlotSelected;
+            adm.ShipSlotSelected += ShipSlotSelected;
+            fadm.ShipSlotSelected += ShipSlotSelected;
             #endregion
 
             InitializeShips();
@@ -190,34 +194,34 @@ namespace FleetCom
             adm.Available = ((Game1)Game).User.HasAchievedRank("ADM");
             fadm.Available = ((Game1)Game).User.HasAchievedRank("FADM");
 
-            ens.Ship = Ships.Where(x => x.Name == ((Game1)Game).User.Fleet[0]).FirstOrDefault<IShip>();
+            ens.Ship = Ships[((Game1)Game).User.Fleet[0]];
 
             if (ltjg.Available)
-                ltjg.Ship = Ships.Where(x => x.Name == ((Game1)Game).User.Fleet[1]).FirstOrDefault<IShip>();
+                ltjg.Ship = Ships[((Game1)Game).User.Fleet[1]];
 
             if (lt.Available)
-                lt.Ship = Ships.Where(x => x.Name == ((Game1)Game).User.Fleet[2]).FirstOrDefault<IShip>();
+                lt.Ship = Ships[((Game1)Game).User.Fleet[2]]; ;
 
             if (ltcdr.Available)
-                ltcdr.Ship = Ships.Where(x => x.Name == ((Game1)Game).User.Fleet[3]).FirstOrDefault<IShip>();
+                ltcdr.Ship = Ships[((Game1)Game).User.Fleet[3]];
 
             if (cdr.Available)
-                cdr.Ship = Ships.Where(x => x.Name == ((Game1)Game).User.Fleet[4]).FirstOrDefault<IShip>();
+                cdr.Ship = Ships[((Game1)Game).User.Fleet[4]];
 
             if (cpt.Available)
-                cpt.Ship = Ships.Where(x => x.Name == ((Game1)Game).User.Fleet[5]).FirstOrDefault<IShip>();
+                cpt.Ship = Ships[((Game1)Game).User.Fleet[5]];
 
             if (radm.Available)
-                radm.Ship = Ships.Where(x => x.Name == ((Game1)Game).User.Fleet[6]).FirstOrDefault<IShip>();
+                radm.Ship = Ships[((Game1)Game).User.Fleet[6]];
 
             if (vadm.Available)
-                vadm.Ship = Ships.Where(x => x.Name == ((Game1)Game).User.Fleet[7]).FirstOrDefault<IShip>();
+                vadm.Ship = Ships[((Game1)Game).User.Fleet[7]];
 
             if (adm.Available)
-                adm.Ship = Ships.Where(x => x.Name == ((Game1)Game).User.Fleet[8]).FirstOrDefault<IShip>();
+                adm.Ship = Ships[((Game1)Game).User.Fleet[8]];
 
             if (fadm.Available)
-                fadm.Ship = Ships.Where(x => x.Name == ((Game1)Game).User.Fleet[9]).FirstOrDefault<IShip>();
+                fadm.Ship = Ships[((Game1)Game).User.Fleet[9]];
         }
 
         public override void Update(GameTime gameTime)
@@ -472,6 +476,193 @@ namespace FleetCom
             MyFleetButton.Update(state);
             PreviousPageButton.Update(state);
             NextPageButton.Update(state);
+            one.Update(state);
+
+            switch (slotSelected)
+            {
+                case 1:
+                    one.Selected = true;
+                    two.Selected = false;
+                    three.Selected = false;
+                    four.Selected = false;
+                    five.Selected = false;
+                    six.Selected = false;
+                    seven.Selected = false;
+                    eight.Selected = false;
+                    nine.Selected = false;
+                    ten.Selected = false;
+
+                    if (one.Ship != null)
+                        ShipInfo = one.Ship.InfoTexture;
+                    else
+                        ShipInfo = null;
+                    break;
+
+                case 2:
+                    one.Selected = false;
+                    two.Selected = true;
+                    three.Selected = false;
+                    four.Selected = false;
+                    five.Selected = false;
+                    six.Selected = false;
+                    seven.Selected = false;
+                    eight.Selected = false;
+                    nine.Selected = false;
+                    ten.Selected = false;
+
+                    if (two.Ship != null)
+                        ShipInfo = two.Ship.InfoTexture;
+                    else
+                        ShipInfo = null;
+                    break;
+
+                case 3:
+                    one.Selected = false;
+                    two.Selected = false;
+                    three.Selected = true;
+                    four.Selected = false;
+                    five.Selected = false;
+                    six.Selected = false;
+                    seven.Selected = false;
+                    eight.Selected = false;
+                    nine.Selected = false;
+                    ten.Selected = false;
+
+                    if (three.Ship != null)
+                        ShipInfo = three.Ship.InfoTexture;
+                    else
+                        ShipInfo = null;
+                    break;
+
+                case 4:
+                    one.Selected = false;
+                    two.Selected = false;
+                    three.Selected = false;
+                    four.Selected = true;
+                    five.Selected = false;
+                    six.Selected = false;
+                    seven.Selected = false;
+                    eight.Selected = false;
+                    nine.Selected = false;
+                    ten.Selected = false;
+
+                    if (four.Ship != null)
+                        ShipInfo = four.Ship.InfoTexture;
+                    else
+                        ShipInfo = null;
+                    break;
+
+                case 5:
+                    one.Selected = false;
+                    two.Selected = false;
+                    three.Selected = false;
+                    four.Selected = false;
+                    five.Selected = true;
+                    six.Selected = false;
+                    seven.Selected = false;
+                    eight.Selected = false;
+                    nine.Selected = false;
+                    ten.Selected = false;
+
+                    if (five.Ship != null)
+                        ShipInfo = five.Ship.InfoTexture;
+                    else
+                        ShipInfo = null;
+                    break;
+
+                case 6:
+                    one.Selected = false;
+                    two.Selected = false;
+                    three.Selected = false;
+                    four.Selected = false;
+                    five.Selected = false;
+                    six.Selected = true;
+                    seven.Selected = false;
+                    eight.Selected = false;
+                    nine.Selected = false;
+                    ten.Selected = false;
+
+                    if (six.Ship != null)
+                        ShipInfo = six.Ship.InfoTexture;
+                    else
+                        ShipInfo = null;
+                    break;
+
+                case 7:
+                    one.Selected = false;
+                    two.Selected = false;
+                    three.Selected = false;
+                    four.Selected = false;
+                    five.Selected = false;
+                    six.Selected = false;
+                    seven.Selected = true;
+                    eight.Selected = false;
+                    nine.Selected = false;
+                    ten.Selected = false;
+
+                    if (seven.Ship != null)
+                        ShipInfo = seven.Ship.InfoTexture;
+                    else
+                        ShipInfo = null;
+                    break;
+
+                case 8:
+                    one.Selected = false;
+                    two.Selected = false;
+                    three.Selected = false;
+                    four.Selected = false;
+                    five.Selected = false;
+                    six.Selected = false;
+                    seven.Selected = false;
+                    eight.Selected = true;
+                    nine.Selected = false;
+                    ten.Selected = false;
+
+                    if (eight.Ship != null)
+                        ShipInfo = eight.Ship.InfoTexture;
+                    else
+                        ShipInfo = null;
+                    break;
+
+                case 9:
+                    one.Selected = false;
+                    two.Selected = false;
+                    three.Selected = false;
+                    four.Selected = false;
+                    five.Selected = false;
+                    six.Selected = false;
+                    seven.Selected = false;
+                    eight.Selected = false;
+                    nine.Selected = true;
+                    ten.Selected = false;
+
+                    if (nine.Ship != null)
+                        ShipInfo = nine.Ship.InfoTexture;
+                    else
+                        ShipInfo = null;
+                    break;
+
+                case 10:
+                    one.Selected = false;
+                    two.Selected = false;
+                    three.Selected = false;
+                    four.Selected = false;
+                    five.Selected = false;
+                    six.Selected = false;
+                    seven.Selected = false;
+                    eight.Selected = false;
+                    nine.Selected = false;
+                    ten.Selected = true;
+
+                    if (ten.Ship != null)
+                        ShipInfo = ten.Ship.InfoTexture;
+                    else
+                        ShipInfo = null;
+                    break;
+            }
+
+            if (ShipInfo != null)
+                SellButton.Update(state);
         }
 
         public override void Draw(GameTime gameTime)
@@ -505,7 +696,11 @@ namespace FleetCom
                     break;
             }
 
-            
+            if (ShipInfo != null)
+            {
+                spriteBatch.Draw(ShipInfo, new Vector2(1250, 225), null, Color.White, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0.1f);
+                SellButton.Draw(spriteBatch);
+            }
 
             spriteBatch.End();
 
@@ -525,12 +720,6 @@ namespace FleetCom
             vadm.Draw(spriteBatch);
             adm.Draw(spriteBatch);
             fadm.Draw(spriteBatch);
-
-            if (ShipInfo != null)
-            {
-                spriteBatch.Draw(ShipInfo, new Vector2(1250, 225), null, Color.White, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0.1f);
-                SellButton.Draw(spriteBatch);
-            }
         }
 
         void DrawStore(SpriteBatch spriteBatch)
@@ -542,18 +731,39 @@ namespace FleetCom
             PreviousPageButton.Draw(spriteBatch);
             NextPageButton.Draw(spriteBatch);
             MyFleetButton.Draw(spriteBatch);
+            one.Draw(spriteBatch);
         }
 
         void InitializeShips()
         {
-            Ships = new List<IShip>();
+            ContentManager game = ((Game1)Game).Content;
+            Dictionary<string, ResearchItem> researchTree = ((Game1)Game).ResearchMenu.ResearchTree;
+            #region Weapons
+            Weapons = new Dictionary<string, IWeapon>();
+            Weapons.Add("Railgun", new Railguns_Ref(
+                game.Load<Texture2D>("Graphics/Ships/Weapons/Railgun")));
+            Weapons.Add("Missile", new Missile_Ref(
+                game.Load<Texture2D>("Graphics/Ships/Wepaons/Missile")));
+            #endregion
+            #region Ships
+            Ships = new Dictionary<string, IShip>();
 
-            Ships.Add(new F302_Ref(
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/Ships/F302/F-302"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/Ships/F302/Icon"),
-                ((Game1)Game).Content.Load<Texture2D>("Graphics/Ships/F302/InfoCard"),
-                new List<ResearchItem> { ((Game1)Game).ResearchMenu.ResearchTree["Space Flight"] },
-                null, null));
+            Ships.Add("F-302", new F302_Ref(
+                game.Load<Texture2D>("Graphics/Ships/F302/F-302"),
+                game.Load<Texture2D>("Graphics/Ships/F302/Icon"),
+                game.Load<Texture2D>("Graphics/Ships/F302/InfoCard"),
+                researchTree, Weapons));
+            Ships.Add("BC-303", new BC303_Ref(
+                game.Load<Texture2D>("Graphics/Ships/BC-303/BC-303"),
+                game.Load<Texture2D>("Graphics/Ships/BC-303/Icon"),
+                game.Load<Texture2D>("Graphics/Ships/BC-303/InfoCard"),
+                researchTree, Weapons));
+            //Ships.Add(new F302_Ref(
+            //    ((Game1)Game).Content.Load<Texture2D>("Graphics/Ships/F302/F-302"),
+            //    ((Game1)Game).Content.Load<Texture2D>("Graphics/Ships/F302/Icon"),
+            //    ((Game1)Game).Content.Load<Texture2D>("Graphics/Ships/F302/InfoCard"),
+            //    new List<ResearchItem> { ((Game1)Game).ResearchMenu.ResearchTree["Space Flight"] },
+            //    null, null));
             //result.Add("BC-303", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Hyperdrive"] } ));
             //result.Add("BC-304", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Intergalactic Hyperdrive"] }));
             //result.Add("BC-304 Refit", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Alien Diplomacy"], game.ResearchMenu.ResearchTree["Cloaking Technology"] }));
@@ -564,11 +774,11 @@ namespace FleetCom
             //result.Add("Dart", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Organic Hulls"] }));
             //result.Add("Wraith Cruiser", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Trinium-Organic Hulls"] }));
             //result.Add("Hive Ship", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Regenerative Hulls"] }));
-            //result.Add("Ori Fighter", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Religious Indoctrination"] }));
+            //result.Add("Ori Fighter", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Religious Indoctrination"], game.ResearchMenu.ResearchTree["Mobile Ring Transporters"] }));
             //result.Add("Ori Warship", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Religious Indoctrination"], game.ResearchMenu.ResearchTree["Control Chairs"] }));
             //result.Add("Seed Ship", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["FTL Engines"] }));
             //result.Add("Gateship", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Drone Weapons"] }));
-            //result.Add("Aurora", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Drone Weapons"], game.ResearchMenu.ResearchTree["Zero-Point Energy"], game.ResearchMenu.ResearchTree["Direct Neural Interfaces"] }));
+            //result.Add("Aurora", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Zero-Point Energy"], game.ResearchMenu.ResearchTree["Direct Neural Interfaces"] }));
             //result.Add("TIE Fighter", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Ion Engines"] }));
             //result.Add("Acclamator", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Turbolasers"] }));
             //result.Add("Victory", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Ion Engines"], game.ResearchMenu.ResearchTree["Tractor Beams"] }));
@@ -596,6 +806,24 @@ namespace FleetCom
             //result.Add("Heavy Corvette", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Religious Indoctrination"], game.ResearchMenu.ResearchTree["Plasma Weapons"] }));
             //result.Add("CCS", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Energy Projectors"] }));
             //result.Add("CAS", new Ship(new List<ResearchItem> { game.ResearchMenu.ResearchTree["Plasma Torpedoes"] }));
+            #endregion
+
+            #region Store Slots
+            Texture2D SS, SSHover, SSPressed, SSBlocked, Popup;
+            SS = ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/ShipSlot");
+            SSHover = ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/ShipSlot-Hover");
+            SSPressed = ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/ShipSlot-Pressed");
+            SSBlocked = ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/BlockedShipSlot");
+            Popup = ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/ResearchPopup");
+
+            //TODO: Class should be ready to use. Instantiate, draw, and update. Then test. Then replicate for all 42 ships.
+            one = new StoreItem(SS, SSHover, SSPressed, SSBlocked,
+                ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/Ensign"),
+                Popup, new Vector2(75, 475), 1, ((Game1)Game), MH15, Ships["F-302"]);
+            
+            //fadm.ShipSlotSelected += ShipSlotSelected;
+            one.StoreItemSelected += ItemSelected_Handler;
+            #endregion
         }
 
         bool IsFleetEmpty()
@@ -654,6 +882,11 @@ namespace FleetCom
                     slotSelected = 10;
                     break;
             }
+        }
+
+        void ItemSelected_Handler(StoreItem item)
+        {
+            slotSelected = item.Slot;
         }
 
         void PreviousPage_ButtonPressed()

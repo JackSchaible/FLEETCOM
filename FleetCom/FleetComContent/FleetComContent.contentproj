@@ -850,12 +850,12 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Graphics\Ships\F302\Missile.png">
+    <Compile Include="Graphics\Ships\Weapons\Missile.png">
       <Name>Missile</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Graphics\Ships\F302\Railgun.png">
+    <Compile Include="Graphics\Ships\Weapons\Railgun.png">
       <Name>Railgun</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
@@ -920,6 +920,33 @@
     </Compile>
     <Compile Include="Graphics\FleetMenu\PreviousButton.png">
       <Name>PreviousButton</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Graphics\FleetMenu\ResearchPopup.png">
+      <Name>ResearchPopup</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Graphics\Ships\BC-304\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Graphics\Ships\BC-303\BC-303.png">
+      <Name>BC-303</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Ships\BC-303\Icon.png">
+      <Name>Icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Ships\BC-303\InfoCard.png">
+      <Name>InfoCard</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

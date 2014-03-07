@@ -415,6 +415,11 @@ namespace FleetCom
                 ResearchCompleted();
         }
 
+        public bool IsItemResearched(string item)
+        {
+            return ResearchTree[item].Researched;
+        }
+
         void ResearchCompleted()
         {
             ResearchTree[CurrentlyResearching].Researched = true;

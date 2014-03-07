@@ -16,6 +16,7 @@ namespace FleetCom.Graphics.UI
         public bool Available { get; set; }
         public IShip Ship { get; set; }
         public StoreItemSelect StoreItemSelected;
+        public int Slot { get; set; }
 
         Texture2D Popup, UnavailableTexture;
         SpriteFont MH15;
@@ -23,12 +24,14 @@ namespace FleetCom.Graphics.UI
 
         public StoreItem(Texture2D normalTexture, Texture2D hoverTexture, Texture2D downTexture,
             Texture2D unavailableTexture, Texture2D shipTexture, Texture2D popup, Vector2 position,
-            Game1 game, SpriteFont mh15)
+            int slot, Game1 game, SpriteFont mh15, IShip ship)
             : base (normalTexture, hoverTexture, downTexture, position)
         {
-            Available = !Ship.Prerequisites.Except(game.ResearchMenu.ResearchTree.Values.Where(x => x.ResearchState == ResearchStates.Researched)).Any();
             Selected = false;
             this.game = game;
+            Ship = ship;
+            Available = !Ship.Prerequisites.Except(game.ResearchMenu.ResearchTree.Values.Where(x => x.ResearchState == ResearchStates.Researched)).Any();
+            Slot = slot;
 
             MH15 = mh15;
             Popup = popup;
@@ -75,26 +78,29 @@ namespace FleetCom.Graphics.UI
             }
         }
 
-
         public override void Draw(SpriteBatch spriteBatch)
         {
             if (ButtonState == ButtonStates.Hover)
             {
-                int counter = 0;
-                foreach(ResearchItem item in Ship.Prerequisites.Except(game.ResearchMenu.ResearchTree.Values.Where(x => x.ResearchState == ResearchStates.Researched)))
+                IEnumerable<ResearchItem> prereqs = Ship.Prerequisites.Except(game.ResearchMenu.ResearchTree.Values.Where(x => x.ResearchState == ResearchStates.Researched));
+
+                if (prereqs.Count() > 0)
                 {
-                    //Display unresearched prereqs
-                    if (counter == 0)
-                        spriteBatch.DrawString(MH15, item.Name, new Vector2(Position.X + 240, Position.Y + 50), Color.White, 0.0f, Vector2.Zero,
-                            1.0f, SpriteEffects.None, 1.0f);
-                    else if (counter == 1)
-                        spriteBatch.DrawString(MH15, item.Name, new Vector2(Position.X + 240, Position.Y + 70), Color.White, 0.0f, Vector2.Zero,
-                            1.0f, SpriteEffects.None, 1.0f);
+                    spriteBatch.Draw(Popup, new Vector2(Position.X + 225, Position.Y), null, Color.White, 0.0f, Vector2.Zero, 1.1f, SpriteEffects.None, 0.9f);
+                    int counter = 0;
+                    foreach (ResearchItem item in prereqs)
+                    {
+                        //Display unresearched prereqs
+                        if (counter == 0)
+                            spriteBatch.DrawString(MH15, item.Name, new Vector2(Position.X + 240, Position.Y + 50), Color.White, 0.0f, Vector2.Zero,
+                                1.0f, SpriteEffects.None, 1.0f);
+                        else if (counter == 1)
+                            spriteBatch.DrawString(MH15, item.Name, new Vector2(Position.X + 240, Position.Y + 70), Color.White, 0.0f, Vector2.Zero,
+                                1.0f, SpriteEffects.None, 1.0f);
 
-                    counter++;
+                        counter++;
+                    }
                 }
-
-                spriteBatch.Draw(Popup, new Vector2(Position.X + 225, Position.Y), null, Color.White, 0.0f, Vector2.Zero, 1.1f, SpriteEffects.None, 0.9f);
             }
 
             if (Available)
