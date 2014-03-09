@@ -29,7 +29,12 @@ namespace FleetCom.Classes.Ships.Weapons
         /// <summary>
         /// Unguided weapons go in a straight line
         /// </summary>
-        Unguided
+        Unguided,
+        /// <summary>
+        /// Hits a point on the enemy ship from a point on the source
+        /// ship; never misses
+        /// </summary>
+        PointToPoint
     }
 
     /// <summary>

@@ -72,10 +72,14 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\Ships\Asgard\Bilskirnir.cs" />
     <Compile Include="Classes\Ships\IShip.cs" />
     <Compile Include="Classes\Ships\Tauri\BC-303R.cs" />
+    <Compile Include="Classes\Ships\Tauri\BC-304R.cs" />
     <Compile Include="Classes\Ships\Tauri\F-302R.cs" />
+    <Compile Include="Classes\Ships\Weapons\IonGunR.cs" />
     <Compile Include="Classes\Ships\Weapons\MissileR.cs" />
+    <Compile Include="Classes\Ships\Weapons\PlasmaBeamR.cs" />
     <Compile Include="Classes\Ships\Weapons\RailgunsR.cs" />
     <Compile Include="Classes\Ships\Weapons\IWeapon.cs" />
     <Compile Include="Classes\Ships\Weapons\Weapon.cs" />

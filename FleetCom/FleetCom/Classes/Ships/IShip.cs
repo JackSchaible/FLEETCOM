@@ -39,6 +39,10 @@ namespace FleetCom.Classes.Ships
         float ShieldRechargeRate { get; }
         ShipSizes ShipSize { get; }
 
+        //Physics
+        float Speed { get; }
+        float TurnRate { get; }
+
         //Graphics
         Texture2D Texture { get; set; }
         Texture2D IconTexture { get; set; }

@@ -92,10 +92,10 @@ namespace FleetCom.Graphics.UI
                     {
                         //Display unresearched prereqs
                         if (counter == 0)
-                            spriteBatch.DrawString(MH15, item.Name, new Vector2(Position.X + 240, Position.Y + 50), Color.White, 0.0f, Vector2.Zero,
+                            spriteBatch.DrawString(MH15, item.Name, new Vector2(Position.X + 250, Position.Y + 50), Color.White, 0.0f, Vector2.Zero,
                                 1.0f, SpriteEffects.None, 1.0f);
                         else if (counter == 1)
-                            spriteBatch.DrawString(MH15, item.Name, new Vector2(Position.X + 240, Position.Y + 70), Color.White, 0.0f, Vector2.Zero,
+                            spriteBatch.DrawString(MH15, item.Name, new Vector2(Position.X + 250, Position.Y + 70), Color.White, 0.0f, Vector2.Zero,
                                 1.0f, SpriteEffects.None, 1.0f);
 
                         counter++;

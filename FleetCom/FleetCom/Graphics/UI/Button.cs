@@ -27,6 +27,8 @@ namespace FleetCom.Graphics.UI
         public Texture2D HoverTexture { get; set; }
         public Texture2D DownTexture { get; set; }
 
+        float layer;
+
         protected MouseState mouseState;
         protected MouseState previousMouseState;
 
@@ -45,6 +47,27 @@ namespace FleetCom.Graphics.UI
             CollisionRect = new Rectangle((int)Position.X, (int)Position.Y,
                     Texture.Width,
                     Texture.Height);
+
+            layer = 1.0f;
+        }
+
+        public Button(Texture2D normalTexture, Texture2D hoverTexture, Texture2D downTexture,
+            Vector2 position, float layerDepth)
+        {
+            NormalTexture = normalTexture;
+            HoverTexture = hoverTexture;
+            DownTexture = downTexture;
+            Texture = NormalTexture;
+            Position = position;
+
+            mouseState = Mouse.GetState();
+            previousMouseState = mouseState;
+
+            CollisionRect = new Rectangle((int)Position.X, (int)Position.Y,
+                    Texture.Width,
+                    Texture.Height);
+
+            layer = layerDepth;
         }
 
         public virtual void Update(MouseState currentState)
@@ -82,7 +105,7 @@ namespace FleetCom.Graphics.UI
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Texture, Position, null, Color.White, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 1.0f);
+            spriteBatch.Draw(Texture, Position, null, Color.White, 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, layer);
         }
 
         protected virtual void RaiseButtonPressEvent()

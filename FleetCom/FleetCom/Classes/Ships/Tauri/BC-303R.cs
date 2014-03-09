@@ -10,12 +10,14 @@ namespace FleetCom.Classes.Ships.Tauri
 {
     public class BC303_Ref : IShip
     {
-        public string Name { get { return "F-302"; } }
-        public int Cost { get { return 200; } }
+        public string Name { get { return "BC-303"; } }
+        public int Cost { get { return 2000; } }
         public int HP { get { return 1000; } }
-        public int Shields { get { return 2000; } }
+        public int Shields { get { return 3000; } }
         public int ShieldRechargeDelay { get { return 6000; } }
         public float ShieldRechargeRate { get { return 100; } }
+        public float Speed { get { return 3.3f; } }
+        public float TurnRate { get { return 1; } }
         public ShipSizes ShipSize { get { return ShipSizes.Medium; } }
 
         public Texture2D Texture { get; set; }
@@ -39,7 +41,6 @@ namespace FleetCom.Classes.Ships.Tauri
             InfoTexture = infoTexture;
             Prerequisites = new List<ResearchItem>() 
             { 
-                researchTree["Space Flight"],
                 researchTree["Hyperdrive"]
             };
 
@@ -49,102 +50,99 @@ namespace FleetCom.Classes.Ships.Tauri
                 {
                     new WeaponGroup(new List<Weapon>() 
                     {
-                        new Weapon(weapons["Railgun"], new Vector2(200, 5),
+                        new Weapon(weapons["Railgun"], new Vector2(160, 3),
                             -45, 45),
-                        new Weapon(weapons["Railgun"], new Vector2(249, 5),
+                        new Weapon(weapons["Railgun"], new Vector2(198, 3),
                             -45, 45),
-                        new Weapon(weapons["Railgun"], new Vector2(298, 5),
+                        new Weapon(weapons["Railgun"], new Vector2(237, 3),
                             -45, 45),
-                        new Weapon(weapons["Railgun"], new Vector2(345, 5),
+                        new Weapon(weapons["Railgun"], new Vector2(275, 3),
                             -45, 45),
-                        new Weapon(weapons["Railgun"], new Vector2(170, 85),
+                        new Weapon(weapons["Railgun"], new Vector2(137, 66),
                             -225, 0),
-                        new Weapon(weapons["Railgun"], new Vector2(177, 135),
+                        new Weapon(weapons["Railgun"], new Vector2(299, 66),
                             0, 225),
-                        new Weapon(weapons["Railgun"], new Vector2(465, 135),
+                        new Weapon(weapons["Railgun"], new Vector2(294, 106),
                             0, 225),
-                        new Weapon(weapons["Railgun"], new Vector2(373, 85),
+                        new Weapon(weapons["Railgun"], new Vector2(142, 106),
                             -225, 0)
                     }, "Fore Railguns"),
                     new WeaponGroup(new List<Weapon>()
                     {
-                        new Weapon(weapons["Railgun"], new Vector2(195, 185),
+                        new Weapon(weapons["Railgun"], new Vector2(162, 145),
                             0, -180),
-                        new Weapon(weapons["Railgun"], new Vector2(195, 256),
+                        new Weapon(weapons["Railgun"], new Vector2(162, 203),
                             0, -180),
-                        new Weapon(weapons["Railgun"], new Vector2(195, 327),
+                        new Weapon(weapons["Railgun"], new Vector2(162, 261),
                             0, -180),
-                        new Weapon(weapons["Railgun"], new Vector2(195, 398),
+                        new Weapon(weapons["Railgun"], new Vector2(162, 318),
                             0, -180),
-                        new Weapon(weapons["Railgun"], new Vector2(195, 469),
+                        new Weapon(weapons["Railgun"], new Vector2(162, 376),
                             0, -180),
-                        new Weapon(weapons["Railgun"], new Vector2(195, 540),
+                        new Weapon(weapons["Railgun"], new Vector2(162, 434),
                             0, -180),
-                        new Weapon(weapons["Railgun"], new Vector2(170, 85),
+                        new Weapon(weapons["Railgun"], new Vector2(137, 66),
                             -225, 0),
-                        new Weapon(weapons["Railgun"], new Vector2(177, 135),
+                        new Weapon(weapons["Railgun"], new Vector2(142, 106),
                             0, 225)
                     }, "Port Railguns"),
                     new WeaponGroup(new List<Weapon>()
                     {
-                        new Weapon(weapons["Railgun"], new Vector2(350, 185),
+                        new Weapon(weapons["Railgun"], new Vector2(274, 145),
+                            0, -180),
+                        new Weapon(weapons["Railgun"], new Vector2(274, 203),
+                            0, -180),
+                        new Weapon(weapons["Railgun"], new Vector2(274, 261),
+                            0, -180),
+                        new Weapon(weapons["Railgun"], new Vector2(274, 318),
+                            0, -180),
+                        new Weapon(weapons["Railgun"], new Vector2(274, 376),
+                            0, -180),
+                        new Weapon(weapons["Railgun"], new Vector2(274, 434),
                             0, 180),
-                        new Weapon(weapons["Railgun"], new Vector2(350, 256),
-                            0, 180),
-                        new Weapon(weapons["Railgun"], new Vector2(350, 327),
-                            0, 180),
-                        new Weapon(weapons["Railgun"], new Vector2(350, 398),
-                            0, 180),
-                        new Weapon(weapons["Railgun"], new Vector2(350, 469),
-                            0, 180),
-                        new Weapon(weapons["Railgun"], new Vector2(350, 540),
-                            0, 180),
-                        new Weapon(weapons["Railgun"], new Vector2(465, 135),
+                        new Weapon(weapons["Railgun"], new Vector2(299, 66),
                             0, 225),
-                        new Weapon(weapons["Railgun"], new Vector2(373, 85),
+                        new Weapon(weapons["Railgun"], new Vector2(294, 106),
                             0, 225)
                     }, "Starboard Railguns"),
                     new WeaponGroup(new List<Weapon>()
                     {
-                        new Weapon(weapons["Railgun"], new Vector2(449, 672),
+                        new Weapon(weapons["Railgun"], new Vector2(57, 357),
                             0, 360),
-                        new Weapon(weapons["Railgun"], new Vector2(471, 672),
+                        new Weapon(weapons["Railgun"], new Vector2(75, 537),
                             0, 360),
-                        new Weapon(weapons["Railgun"], new Vector2(70, 673),
+                        new Weapon(weapons["Railgun"], new Vector2(359, 536),
                             0, 360),
-                        new Weapon(weapons["Railgun"], new Vector2(93, 673),
+                        new Weapon(weapons["Railgun"], new Vector2(377, 536),
                             0, 360)
                     }, "Aft Railguns"),
                     new WeaponGroup(new List<Weapon>()
                     {
-                        new Weapon(weapons["Missile"], new Vector2(236, 200),
+                        new Weapon(weapons["Missile"], new Vector2(195, 6),
                             0, 360, 2, 1, 1, 1, 1),
-                        new Weapon(weapons["Missile"], new Vector2(236, 240),
+                        new Weapon(weapons["Missile"], new Vector2(237, 6),
                             0, 360, 2, 1, 1, 1, 1),
-                        new Weapon(weapons["Missile"], new Vector2(236, 280),
+                        new Weapon(weapons["Missile"], new Vector2(168, 99),
                             0, 360, 2, 1, 1, 1, 1),
-                        new Weapon(weapons["Missile"], new Vector2(236, 320),
+                        new Weapon(weapons["Missile"], new Vector2(266, 99),
                             0, 360, 2, 1, 1, 1, 1),
-                        new Weapon(weapons["Missile"], new Vector2(236, 360),
+                        new Weapon(weapons["Missile"], new Vector2(202, 379),
                             0, 360, 2, 1, 1, 1, 1),
-                        new Weapon(weapons["Missile"], new Vector2(236, 400),
+                        new Weapon(weapons["Missile"], new Vector2(202, 397),
+                            0, 360, 3, 1, 1, 1, 1),
+                        new Weapon(weapons["Missile"], new Vector2(235, 379),
+                            0, 360, 2, 1, 1, 1, 1),
+                        new Weapon(weapons["Missile"], new Vector2(235, 397),
+                            0, 360, 2, 1, 1, 1, 1),
+                        new Weapon(weapons["Missile"], new Vector2(190, 190),
+                            0, 360, 2, 1, 1, 1, 1),
+                        new Weapon(weapons["Missile"], new Vector2(190, 290),
+                            0, 360, 2, 1, 1, 1, 1),
+                        new Weapon(weapons["Missile"], new Vector2(244, 190),
+                            0, 360, 2, 1, 1, 1, 1),
+                        new Weapon(weapons["Missile"], new Vector2(244, 290),
                             0, 360, 3, 1, 1, 1, 1)
-                    }, "Port Missile Launchers", 15),
-                    new WeaponGroup(new List<Weapon>()
-                    {
-                        new Weapon(weapons["Missile"], new Vector2(305, 200),
-                            0, 360, 2, 1, 1, 1, 1),
-                        new Weapon(weapons["Missile"], new Vector2(305, 240),
-                            0, 360, 2, 1, 1, 1, 1),
-                        new Weapon(weapons["Missile"], new Vector2(305, 280),
-                            0, 360, 2, 1, 1, 1, 1),
-                        new Weapon(weapons["Missile"], new Vector2(305, 320),
-                            0, 360, 2, 1, 1, 1, 1),
-                        new Weapon(weapons["Missile"], new Vector2(305, 360),
-                            0, 360, 2, 1, 1, 1, 1),
-                        new Weapon(weapons["Missile"], new Vector2(305, 400),
-                            0, 360, 3, 1, 1, 1, 1)
-                    }, "Starboard Missile Launchers", 15)
+                    }, "Missile Launchers", 15)
                 };
             }
             else
@@ -153,102 +151,99 @@ namespace FleetCom.Classes.Ships.Tauri
                 {
                     new WeaponGroup(new List<Weapon>() 
                     {
-                        new Weapon(weapons["Railgun"], new Vector2(200, 5),
+                        new Weapon(weapons["Railgun"], new Vector2(160, 3),
                             -45, 45),
-                        new Weapon(weapons["Railgun"], new Vector2(249, 5),
+                        new Weapon(weapons["Railgun"], new Vector2(198, 3),
                             -45, 45),
-                        new Weapon(weapons["Railgun"], new Vector2(298, 5),
+                        new Weapon(weapons["Railgun"], new Vector2(237, 3),
                             -45, 45),
-                        new Weapon(weapons["Railgun"], new Vector2(345, 5),
+                        new Weapon(weapons["Railgun"], new Vector2(275, 3),
                             -45, 45),
-                        new Weapon(weapons["Railgun"], new Vector2(170, 85),
+                        new Weapon(weapons["Railgun"], new Vector2(137, 66),
                             -225, 0),
-                        new Weapon(weapons["Railgun"], new Vector2(177, 135),
+                        new Weapon(weapons["Railgun"], new Vector2(299, 66),
                             0, 225),
-                        new Weapon(weapons["Railgun"], new Vector2(465, 135),
+                        new Weapon(weapons["Railgun"], new Vector2(294, 106),
                             0, 225),
-                        new Weapon(weapons["Railgun"], new Vector2(373, 85),
+                        new Weapon(weapons["Railgun"], new Vector2(142, 106),
                             -225, 0)
                     }, "Fore Railguns"),
                     new WeaponGroup(new List<Weapon>()
                     {
-                        new Weapon(weapons["Railgun"], new Vector2(195, 185),
+                        new Weapon(weapons["Railgun"], new Vector2(162, 145),
                             0, -180),
-                        new Weapon(weapons["Railgun"], new Vector2(195, 256),
+                        new Weapon(weapons["Railgun"], new Vector2(162, 203),
                             0, -180),
-                        new Weapon(weapons["Railgun"], new Vector2(195, 327),
+                        new Weapon(weapons["Railgun"], new Vector2(162, 261),
                             0, -180),
-                        new Weapon(weapons["Railgun"], new Vector2(195, 398),
+                        new Weapon(weapons["Railgun"], new Vector2(162, 318),
                             0, -180),
-                        new Weapon(weapons["Railgun"], new Vector2(195, 469),
+                        new Weapon(weapons["Railgun"], new Vector2(162, 376),
                             0, -180),
-                        new Weapon(weapons["Railgun"], new Vector2(195, 540),
+                        new Weapon(weapons["Railgun"], new Vector2(162, 434),
                             0, -180),
-                        new Weapon(weapons["Railgun"], new Vector2(170, 85),
+                        new Weapon(weapons["Railgun"], new Vector2(137, 66),
                             -225, 0),
-                        new Weapon(weapons["Railgun"], new Vector2(177, 135),
+                        new Weapon(weapons["Railgun"], new Vector2(142, 106),
                             0, 225)
                     }, "Port Railguns"),
                     new WeaponGroup(new List<Weapon>()
                     {
-                        new Weapon(weapons["Railgun"], new Vector2(350, 185),
+                        new Weapon(weapons["Railgun"], new Vector2(274, 145),
+                            0, -180),
+                        new Weapon(weapons["Railgun"], new Vector2(274, 203),
+                            0, -180),
+                        new Weapon(weapons["Railgun"], new Vector2(274, 261),
+                            0, -180),
+                        new Weapon(weapons["Railgun"], new Vector2(274, 318),
+                            0, -180),
+                        new Weapon(weapons["Railgun"], new Vector2(274, 376),
+                            0, -180),
+                        new Weapon(weapons["Railgun"], new Vector2(274, 434),
                             0, 180),
-                        new Weapon(weapons["Railgun"], new Vector2(350, 256),
-                            0, 180),
-                        new Weapon(weapons["Railgun"], new Vector2(350, 327),
-                            0, 180),
-                        new Weapon(weapons["Railgun"], new Vector2(350, 398),
-                            0, 180),
-                        new Weapon(weapons["Railgun"], new Vector2(350, 469),
-                            0, 180),
-                        new Weapon(weapons["Railgun"], new Vector2(350, 540),
-                            0, 180),
-                        new Weapon(weapons["Railgun"], new Vector2(465, 135),
+                        new Weapon(weapons["Railgun"], new Vector2(299, 66),
                             0, 225),
-                        new Weapon(weapons["Railgun"], new Vector2(373, 85),
+                        new Weapon(weapons["Railgun"], new Vector2(294, 106),
                             0, 225)
                     }, "Starboard Railguns"),
                     new WeaponGroup(new List<Weapon>()
                     {
-                        new Weapon(weapons["Railgun"], new Vector2(449, 672),
+                        new Weapon(weapons["Railgun"], new Vector2(57, 357),
                             0, 360),
-                        new Weapon(weapons["Railgun"], new Vector2(471, 672),
+                        new Weapon(weapons["Railgun"], new Vector2(75, 537),
                             0, 360),
-                        new Weapon(weapons["Railgun"], new Vector2(70, 673),
+                        new Weapon(weapons["Railgun"], new Vector2(359, 536),
                             0, 360),
-                        new Weapon(weapons["Railgun"], new Vector2(93, 673),
+                        new Weapon(weapons["Railgun"], new Vector2(377, 536),
                             0, 360)
                     }, "Aft Railguns"),
                     new WeaponGroup(new List<Weapon>()
                     {
-                        new Weapon(weapons["Missile"], new Vector2(236, 200),
+                        new Weapon(weapons["Missile"], new Vector2(195, 6),
                             0, 360),
-                        new Weapon(weapons["Missile"], new Vector2(236, 240),
+                        new Weapon(weapons["Missile"], new Vector2(237, 6),
                             0, 360),
-                        new Weapon(weapons["Missile"], new Vector2(236, 280),
+                        new Weapon(weapons["Missile"], new Vector2(168, 99),
                             0, 360),
-                        new Weapon(weapons["Missile"], new Vector2(236, 320),
+                        new Weapon(weapons["Missile"], new Vector2(266, 99),
                             0, 360),
-                        new Weapon(weapons["Missile"], new Vector2(236, 360),
+                        new Weapon(weapons["Missile"], new Vector2(202, 379),
                             0, 360),
-                        new Weapon(weapons["Missile"], new Vector2(236, 400),
+                        new Weapon(weapons["Missile"], new Vector2(202, 397),
+                            0, 360),
+                        new Weapon(weapons["Missile"], new Vector2(235, 379),
+                            0, 360),
+                        new Weapon(weapons["Missile"], new Vector2(235, 397),
+                            0, 360),
+                        new Weapon(weapons["Missile"], new Vector2(190, 190),
+                            0, 360),
+                        new Weapon(weapons["Missile"], new Vector2(190, 290),
+                            0, 360),
+                        new Weapon(weapons["Missile"], new Vector2(244, 190),
+                            0, 360),
+                        new Weapon(weapons["Missile"], new Vector2(244, 290),
                             0, 360)
-                    }, "Port Missile Launchers", 15),
-                    new WeaponGroup(new List<Weapon>()
-                    {
-                        new Weapon(weapons["Missile"], new Vector2(305, 200),
-                            0, 360),
-                        new Weapon(weapons["Missile"], new Vector2(305, 240),
-                            0, 360),
-                        new Weapon(weapons["Missile"], new Vector2(305, 280),
-                            0, 360),
-                        new Weapon(weapons["Missile"], new Vector2(305, 320),
-                            0, 360),
-                        new Weapon(weapons["Missile"], new Vector2(305, 360),
-                            0, 360),
-                        new Weapon(weapons["Missile"], new Vector2(305, 400),
-                            0, 360)
-                    }, "Starboard Missile Launchers", 15)
+                    }, "Missile Launchers", 15)
                 };
             }
 
@@ -257,8 +252,8 @@ namespace FleetCom.Classes.Ships.Tauri
             Fighters = new Dictionary<string,int>() { { "F-302", 8 } };
             SpawnPoints = new Vector2[]
             {
-                new Vector2(105, 520),
-                new Vector2(440, 520)
+                new Vector2(85, 410),
+                new Vector2(350, 410)
             };
         }
     }

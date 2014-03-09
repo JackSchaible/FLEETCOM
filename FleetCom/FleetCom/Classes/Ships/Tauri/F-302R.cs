@@ -16,6 +16,8 @@ namespace FleetCom.Classes.Ships.Tauri
         public int Shields { get { return 0; } }
         public int ShieldRechargeDelay { get { return 0; } }
         public float ShieldRechargeRate { get { return 0; } }
+        public float Speed { get { return 8.3f; } }
+        public float TurnRate { get { return 3; } }
         public ShipSizes ShipSize { get { return ShipSizes.Diminutive; } }
 
         public Texture2D Texture { get; set; }
@@ -43,16 +45,16 @@ namespace FleetCom.Classes.Ships.Tauri
             {
                 new WeaponGroup(new List<Weapon>()
                 {
-                    new Weapon(weapons["Railgun"], new Vector2(180, 8),
+                    new Weapon(weapons["Railgun"], new Vector2(95, 3),
                         0, 0),
-                    new Weapon(weapons["Railgun"], new Vector2(200, 8),
+                    new Weapon(weapons["Railgun"], new Vector2(105, 3),
                         0, 0)
                 }, "Railguns"),
                 new WeaponGroup(new List<Weapon>()
                 {
-                    new Weapon(weapons["Missile"], new Vector2(75, 50),
+                    new Weapon(weapons["Missile"], new Vector2(40, 25),
                         -90, 90),
-                    new Weapon(weapons["Missile"], new Vector2(307, 50),
+                    new Weapon(weapons["Missile"], new Vector2(160, 25),
                         -90, 90)
                 }, "Missiles", 30)
             };

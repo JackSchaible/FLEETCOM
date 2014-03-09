@@ -12,11 +12,10 @@ namespace FleetCom.Classes.Ships.Weapons
         public string Name { get { return "Railgun"; } }
         public Behaviors Behavior { get { return Behaviors.Unguided; } }
         public int Damage { get { return 10; } }
-        public int Speed { get { return 750; } }
         public int Cooldown { get { return 7; } }
         public int Ammo { get { return 10000; } }
         public int Range { get { return 750; } }
-        public int ProjectileSpeed { get { return 750; } }
+        public int ProjectileSpeed { get { return 13; } }
         public Dictionary<ShipSizes, Accuracies> WeaponAccuracies { get; set; }
 
         public Texture2D AmmoTexture { get; set; }

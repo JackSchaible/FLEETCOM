@@ -932,7 +932,11 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Graphics\Ships\BC-304\" />
+    <Compile Include="Graphics\Ships\Bilskirnir\Icon.png">
+      <Name>Icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Graphics\Ships\BC-303\BC-303.png">
@@ -947,6 +951,70 @@
     </Compile>
     <Compile Include="Graphics\Ships\BC-303\InfoCard.png">
       <Name>InfoCard</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Graphics\Ships\Weapons\PlasmaBeam.png">
+      <Name>PlasmaBeam</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Graphics\Ships\Weapons\IonGun.png">
+      <Name>IonGun</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Graphics\Ships\BC-304\BC-304.png">
+      <Name>BC-304</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Ships\BC-304\Icon.png">
+      <Name>Icon</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Ships\BC-304\InfoCard.png">
+      <Name>InfoCard</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Graphics\Ships\Bilskirnir\Bilskirnir.png">
+      <Name>Bilskirnir</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Graphics\FleetMenu\ISFPopup.png">
+      <Name>ISFPopup</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\FleetMenu\PrereqPopup.png">
+      <Name>PrereqPopup</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Graphics\FleetMenu\SlotPopup.png">
+      <Name>SlotPopup</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Graphics\Ships\Bilskirnir\Info Card.png">
+      <Name>Info Card</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
