@@ -77,16 +77,16 @@ namespace FleetCom
             #endregion
 
             base.Initialize();
-            //For testing -- remove this
-            User = new Player(Characters.Aggressive, true,
-                Content.Load<string[]>("Data/StarClusterNames").ToList<string>(),
-                Content.Load<Texture2D>("Graphics/IncursionMap/OwnedTexture"),
-                Content.Load<Texture2D>("Graphics/IncursionMap/UnderAttackSprite"),
-                Content.Load<Texture2D>("Graphics/IncursionMap/NormalTexture"),
-                Content.Load<Texture2D>("Graphics/IncursionMap/SystemStatus"),
-                Content.Load<SpriteFont>("Graphics/Fonts/MyriadHebrew-45"),
-                Content.Load<SpriteFont>("Graphics/Fonts/MyriadHebrew-75"),
-                this);
+            ////For testing -- remove this
+            //User = new Player(Characters.Aggressive, true,
+            //    Content.Load<string[]>("Data/StarClusterNames").ToList<string>(),
+            //    Content.Load<Texture2D>("Graphics/IncursionMap/OwnedTexture"),
+            //    Content.Load<Texture2D>("Graphics/IncursionMap/UnderAttackSprite"),
+            //    Content.Load<Texture2D>("Graphics/IncursionMap/NormalTexture"),
+            //    Content.Load<Texture2D>("Graphics/IncursionMap/SystemStatus"),
+            //    Content.Load<SpriteFont>("Graphics/Fonts/MyriadHebrew-45"),
+            //    Content.Load<SpriteFont>("Graphics/Fonts/MyriadHebrew-75"),
+            //    this);
         }
 
         protected override void LoadContent()
@@ -114,27 +114,16 @@ namespace FleetCom
             switch (GameState)
             {
                 case GameStates.MainMenu:
-                    MainMenu.Enabled = false;
-                    MainMenu.Visible = false;
+                    MainMenu.Enabled = true;
+                    MainMenu.Visible = true;
                     CharacterSelect.Visible = false;
                     CharacterSelect.Enabled = false;
                     GalaxyMap.Enabled = false;
                     GalaxyMap.Visible = false;
                     ResearchMenu.Enabled = false;
                     ResearchMenu.Visible = false;
-                    FleetMenu.Enabled = true;
-                    FleetMenu.Visible = true;
-
-                    //MainMenu.Enabled = true;
-                    //MainMenu.Visible = true;
-                    //CharacterSelect.Visible = false;
-                    //CharacterSelect.Enabled = false;
-                    //GalaxyMap.Enabled = false;
-                    //GalaxyMap.Visible = false;
-                    //ResearchMenu.Enabled = false;
-                    //ResearchMenu.Visible = false;
-                    //Fleet.Enabled = false;
-                    //Fleet.Visible = false;
+                    FleetMenu.Enabled = false;
+                    FleetMenu.Visible = false;
                     break;
 
                 case GameStates.CharacterSelect:
@@ -198,6 +187,12 @@ namespace FleetCom
             GraphicsDevice.Clear(new Color(34, 31, 32));
 
             base.Draw(gameTime);
+        }
+
+        public void ChangeState(GameStates newState)
+        {
+            PreviousGameState = GameState;
+            GameState = newState;
         }
     }
 }

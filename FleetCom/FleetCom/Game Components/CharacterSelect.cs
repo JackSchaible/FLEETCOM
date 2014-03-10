@@ -16,7 +16,6 @@ using System.Xml.Linq;
 
 namespace FleetCom
 {
-
     public class CharacterSelect : Microsoft.Xna.Framework.DrawableGameComponent
     {
         Sprite Title, Char1Desc, Char2Desc, Char3Desc, Char4Desc, OverwritePopup;
@@ -24,7 +23,8 @@ namespace FleetCom
         SpriteBatch spriteBatch;
         int selectedCharacter;
         bool isOverwriteWindowUp;
-        List<string> systemNames;
+        List<string> clusterNames;
+        Dictionary<Texture2D, bool> StarSystemTextures;
         Texture2D starClusterNormalTexture, starClusterUnderAttackTexture, starClusterUnownedTexture, clusterStatusTexture;
         SpriteFont MH45, MH75;
 
@@ -40,7 +40,13 @@ namespace FleetCom
             selectedCharacter = 1;
             isOverwriteWindowUp = false;
 
-            systemNames = ((Game1)Game).Content.Load<string[]>("Data/StarClusterNames").ToList<string>();
+            clusterNames = ((Game1)Game).Content.Load<string[]>("Data/StarClusterNames").ToList<string>();
+            StarSystemTextures = new Dictionary<Texture2D,bool>();
+
+            for (int i = 1; i < 43; i++)
+                StarSystemTextures.Add(((Game1)Game).Content.Load<Texture2D>(String.Format("Graphics/Environments/Star Systems/StarSystem_{0}", i.ToString("D2"))), false);
+
+
             Title = new Sprite(((Game1)Game).Content.Load<Texture2D>("Graphics/CharacterSelect/Title"),
                 new Vector2(60, 50), 1.0f, 0.0f, 1.0f);
             Char1Desc = new Sprite(((Game1)Game).Content.Load<Texture2D>("Graphics/CharacterSelect/Character1Desc"),
@@ -229,7 +235,7 @@ namespace FleetCom
             }
             else
             {
-                ((Game1)Game).User = new Player(characterType, true, systemNames,
+                ((Game1)Game).User = new Player(characterType, true, clusterNames,
                     starClusterNormalTexture, starClusterUnderAttackTexture, starClusterUnownedTexture,
                     clusterStatusTexture, MH45, MH75, ((Game1)Game));
                 ((Game1)Game).GameState = GameStates.GalaxyMap;
@@ -265,7 +271,7 @@ namespace FleetCom
             }
 
             string filename = "Players/" + characterType.ToString() + ".bin";
-            ((Game1)Game).User = new Player(characterType, true, systemNames,
+            ((Game1)Game).User = new Player(characterType, true, clusterNames,
                     starClusterNormalTexture, starClusterUnderAttackTexture, 
                     starClusterUnownedTexture, clusterStatusTexture, MH45, MH75, ((Game1)Game));
             ((Game1)Game).GameState = GameStates.GalaxyMap;

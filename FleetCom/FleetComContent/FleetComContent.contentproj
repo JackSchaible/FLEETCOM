@@ -1013,8 +1013,220 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Graphics\Ships\Bilskirnir\Info Card.png">
-      <Name>Info Card</Name>
+    <Compile Include="Graphics\Ships\Bilskirnir\InfoCard.png">
+      <Name>InfoCard</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Graphics\Environments\Star Systems\StarSystem_01.jpg">
+      <Name>StarSystem_01</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Environments\Star Systems\StarSystem_02.jpg">
+      <Name>StarSystem_02</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Environments\Star Systems\StarSystem_03.jpg">
+      <Name>StarSystem_03</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Environments\Star Systems\StarSystem_04.jpg">
+      <Name>StarSystem_04</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Environments\Star Systems\StarSystem_05.jpg">
+      <Name>StarSystem_05</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Environments\Star Systems\StarSystem_06.jpg">
+      <Name>StarSystem_06</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Environments\Star Systems\StarSystem_07.jpg">
+      <Name>StarSystem_07</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Environments\Star Systems\StarSystem_08.jpg">
+      <Name>StarSystem_08</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Environments\Star Systems\StarSystem_09.jpg">
+      <Name>StarSystem_09</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Environments\Star Systems\StarSystem_10.jpg">
+      <Name>StarSystem_10</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Environments\Star Systems\StarSystem_11.jpg">
+      <Name>StarSystem_11</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Environments\Star Systems\StarSystem_12.jpg">
+      <Name>StarSystem_12</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Environments\Star Systems\StarSystem_13.jpg">
+      <Name>StarSystem_13</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Environments\Star Systems\StarSystem_14.jpg">
+      <Name>StarSystem_14</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Environments\Star Systems\StarSystem_15.jpg">
+      <Name>StarSystem_15</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Environments\Star Systems\StarSystem_16.jpg">
+      <Name>StarSystem_16</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Environments\Star Systems\StarSystem_17.jpg">
+      <Name>StarSystem_17</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Environments\Star Systems\StarSystem_18.jpg">
+      <Name>StarSystem_18</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Environments\Star Systems\StarSystem_19.jpg">
+      <Name>StarSystem_19</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Environments\Star Systems\StarSystem_20.jpg">
+      <Name>StarSystem_20</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Environments\Star Systems\StarSystem_21.jpg">
+      <Name>StarSystem_21</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Environments\Star Systems\StarSystem_22.jpg">
+      <Name>StarSystem_22</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Environments\Star Systems\StarSystem_23.jpg">
+      <Name>StarSystem_23</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Environments\Star Systems\StarSystem_24.jpg">
+      <Name>StarSystem_24</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Environments\Star Systems\StarSystem_25.jpg">
+      <Name>StarSystem_25</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Environments\Star Systems\StarSystem_26.jpg">
+      <Name>StarSystem_26</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Environments\Star Systems\StarSystem_27.jpg">
+      <Name>StarSystem_27</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Environments\Star Systems\StarSystem_28.jpg">
+      <Name>StarSystem_28</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Environments\Star Systems\StarSystem_29.jpg">
+      <Name>StarSystem_29</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Environments\Star Systems\StarSystem_30.jpg">
+      <Name>StarSystem_30</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Environments\Star Systems\StarSystem_31.jpg">
+      <Name>StarSystem_31</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Environments\Star Systems\StarSystem_32.jpg">
+      <Name>StarSystem_32</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Environments\Star Systems\StarSystem_33.jpg">
+      <Name>StarSystem_33</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Environments\Star Systems\StarSystem_34.jpg">
+      <Name>StarSystem_34</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Environments\Star Systems\StarSystem_35.jpg">
+      <Name>StarSystem_35</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Environments\Star Systems\StarSystem_36.jpg">
+      <Name>StarSystem_36</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Environments\Star Systems\StarSystem_37.jpg">
+      <Name>StarSystem_37</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Environments\Star Systems\StarSystem_38.jpg">
+      <Name>StarSystem_38</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Environments\Star Systems\StarSystem_39.jpg">
+      <Name>StarSystem_39</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Environments\Star Systems\StarSystem_40.jpg">
+      <Name>StarSystem_40</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Environments\Star Systems\StarSystem_41.jpg">
+      <Name>StarSystem_41</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Graphics\Environments\Star Systems\StarSystem_42.jpg">
+      <Name>StarSystem_42</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

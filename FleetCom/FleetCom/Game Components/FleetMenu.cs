@@ -33,7 +33,7 @@ namespace FleetCom
 
         Sprite Title, Tutorial, NoShipPopup, ISFPopup, ResearchPopup, SlotPopup;
         Texture2D ShipInfo;
-        Button BackButton, ResearchButton, OKButton, StoreButton, SellButton, MyFleetButton, NextPageButton, PreviousPageButton, BuyButton;
+        Button BackButton, ResearchButton, TutorialOKButton, OKButton, StoreButton, SellButton, MyFleetButton, NextPageButton, PreviousPageButton, BuyButton;
         ShipSlot ens, ltjg, lt, ltcdr, cdr, cpt, radm, vadm, adm, fadm;
         StoreItem one, two, three, four, five, six, seven, eight, nine, ten;
         SpriteFont MH15, MH45;
@@ -158,6 +158,11 @@ namespace FleetCom
                 ((Game1)Game).Content.Load<Texture2D>("Graphics/UI/OKButton-Hover"),
                 ((Game1)Game).Content.Load<Texture2D>("Graphics/UI/OKButton-Pressed"),
                 new Vector2(830, 650));
+            TutorialOKButton = new Button(
+                ((Game1)Game).Content.Load<Texture2D>("Graphics/UI/OKButton"),
+                ((Game1)Game).Content.Load<Texture2D>("Graphics/UI/OKButton-Hover"),
+                ((Game1)Game).Content.Load<Texture2D>("Graphics/UI/OKButton-Pressed"),
+                new Vector2(850, 830));
             StoreButton = new Button(
                 ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/StoreButton"),
                 ((Game1)Game).Content.Load<Texture2D>("Graphics/FleetMenu/StoreButton-Hover"),
@@ -192,6 +197,7 @@ namespace FleetCom
             BackButton.ButtonPressed += BackButton_ButtonPressed;
             ResearchButton.ButtonPressed += ResearchButton_ButtonPressed;
             OKButton.ButtonPressed += OKButton_ButtonPressed;
+            TutorialOKButton.ButtonPressed += TutorialOKButton_ButtonPressed;
             StoreButton.ButtonPressed += StoreButton_ButtonPressed;
             SellButton.ButtonPressed += RemoveButton_ButtonPressed;
             BuyButton.ButtonPressed += BuyButton_ButtonPressed;
@@ -409,7 +415,9 @@ namespace FleetCom
 
             MouseState state = Mouse.GetState();
 
-            if (false/*!((Game1)Game).User.FleetTutorial*/ || researchPopup || isfPopup || slotPopup)
+            if (!((Game1)Game).User.FleetTutorial)
+                TutorialOKButton.Update(state);
+            else if (researchPopup || isfPopup || slotPopup)
             {
                 OKButton.Update(state);
             }
@@ -881,9 +889,12 @@ namespace FleetCom
             spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend);
 
             if (!((Game1)Game).User.FleetTutorial)
+            {
                 Tutorial.Draw(spriteBatch);
-            
-            if (!((Game1)Game).User.FleetTutorial || researchPopup || isfPopup || slotPopup)
+                TutorialOKButton.Draw(spriteBatch);
+            }
+
+            if (researchPopup || isfPopup || slotPopup)
                 OKButton.Draw(spriteBatch);
 
             Title.Draw(spriteBatch);
@@ -1155,10 +1166,13 @@ namespace FleetCom
                 researchPopup = false;
             else if (slotPopup)
                 slotPopup = false;
-            else
-                ((Game1)Game).User.FleetTutorial = true;
 
             switchCounter = 30;
+        }
+
+        void TutorialOKButton_ButtonPressed()
+        {
+            ((Game1)Game).User.FleetTutorial = true;
         }
 
         void StoreButton_ButtonPressed()

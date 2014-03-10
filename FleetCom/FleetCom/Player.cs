@@ -151,20 +151,20 @@ namespace FleetCom
             //Load map
             foreach (XElement item in doc.Elements("StarCluster"))
             {
-                StarClusterStates state = StarClusterStates.Unowned;
+                StarStates state = StarStates.Unowned;
 
                 switch(item.Attribute("State").Value)
                 {
                     case "Unowned":
-                        state = StarClusterStates.Unowned;
+                        state = StarStates.Unowned;
                         break;
 
                     case "UnderAttack":
-                        state = StarClusterStates.UnderAttack;
+                        state = StarStates.UnderAttack;
                         break;
 
                     case "Owned":
-                        state = StarClusterStates.Owned;
+                        state = StarStates.Owned;
                         break;
                 }
 

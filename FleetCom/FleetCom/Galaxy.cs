@@ -36,7 +36,7 @@ namespace FleetCom
 
             //Create the star clusters
             StarClusters = new List<StarCluster>();
-            StarClusterStates state = StarClusterStates.Unowned;
+            StarStates state = StarStates.Unowned;
 
             for (int i = 0; i < 5; i++)
             {
@@ -46,7 +46,7 @@ namespace FleetCom
                 names[name] = true;
 
                 if (i == 4)
-                    state = StarClusterStates.Owned;
+                    state = StarStates.Owned;
 
                 StarClusters.Add(new StarCluster(new Vector2(pos[0] * 200, pos[1] * 200),
                     name, starClusterUnownedTexture, starClusterUnderAttackTexture,
@@ -56,7 +56,7 @@ namespace FleetCom
             int[] position = GetPosition(rnd, slots);
             StarClusters.Add(new StarCluster(new Vector2(position[0] * 200, position[1] * 200),
                 "Local Cluster", starClusterNormalTexture, starClusterUnderAttackTexture,
-                starClusterUnownedTexture, clusterStatusWindow, MH45, MH75, StarClusterStates.UnderAttack));
+                starClusterUnownedTexture, clusterStatusWindow, MH45, MH75, StarStates.UnderAttack));
         }
 
         private int[] GetPosition(Random rnd, bool[,] slots)

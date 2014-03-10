@@ -10,7 +10,7 @@ using System.Text;
 
 namespace FleetCom
 {
-    public enum StarClusterStates
+    public enum StarStates
     {
         Unowned,
         UnderAttack,
@@ -22,7 +22,7 @@ namespace FleetCom
     {
         public Vector2 Position { get; set; }
         public string Name { get; set; }
-        public StarClusterStates State { get; set; }
+        public StarStates State { get; set; }
         public OnSelected ClusterSelected;
         public List<StarSystem> StarSystems;
         public ButtonStates ButtonState;
@@ -35,15 +35,15 @@ namespace FleetCom
 
                 switch(State)
                 {
-                    case StarClusterStates.Owned:
+                    case StarStates.Owned:
                         result = OwnedTexture;
                         break;
 
-                    case StarClusterStates.UnderAttack:
+                    case StarStates.UnderAttack:
                         result = UnderAttackTexture;
                         break;
 
-                    case StarClusterStates.Unowned:
+                    case StarStates.Unowned:
                         result = NormalTexture;
                         break;
                 }
@@ -59,7 +59,7 @@ namespace FleetCom
 
         public StarCluster(Vector2 position, string name, Texture2D normalTexture,
             Texture2D underAttackTexture, Texture2D ownedTexture, Texture2D statusWindowTexture,
-            SpriteFont MH45, SpriteFont MH75, StarClusterStates state)
+            SpriteFont MH45, SpriteFont MH75, StarStates state)
         {
             Position = position;
             Name = name;
